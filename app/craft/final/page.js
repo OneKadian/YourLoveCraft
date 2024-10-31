@@ -30,7 +30,7 @@ const ThirdPage = () => {
     try {
       setTimeout(() => {
         setProgress(100); // Progress to 100 on submission
-        window.location.href = "/craft/final";
+        window.location.href = "/crafting";
       }, 1000);
     } catch (error) {
       console.error("Error:", error);

@@ -25,7 +25,7 @@ const ThirdPage = () => {
     setIsLoading(true);
     try {
       setTimeout(() => {
-        window.location.href = "/crafting";
+        window.location.href = "/craf/tenth";
       }, 1000);
     } catch (error) {
       console.error("Error:", error);
