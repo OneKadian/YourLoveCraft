@@ -1,80 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import stickyNote from "../../public/stickyNote3.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
-import { supabase } from "../../../supabase/supabaseClient.js"; // Correctly import supabase from the supabase folder
+import { addStory } from "../../../supabase/supabaseRequests.js";
 
 const page = () => {
-  // State and Functions for Step 1
   const { userId } = useAuth();
-
   const [isLoading, setIsLoading] = useState(false);
   const [maleLeadName, setMaleLeadName] = useState("");
   const [progress, setProgress] = useState(0);
+  const [storyId, setStoryId] = useState(null);
 
-  // Updates the Progess bar and sets the name equal to male lead name
+  useEffect(() => {
+    if (userId) {
+      const generateUniqueStoryId = () => {
+        const randomDigits = Math.floor(1000 + Math.random() * 9000);
+        return `${userId}-${randomDigits}`;
+      };
+
+      const generatedStoryId = generateUniqueStoryId();
+      setStoryId(generatedStoryId);
+      localStorage.setItem("story_id", generatedStoryId);
+    }
+  }, [userId]);
+
   const handleNameChange = (e) => {
     const input = e.target.value;
     setMaleLeadName(input);
-
-    // Set progress based on the input length, maxing out at 10%
-    const newProgress = Math.min(input.length, 10);
-    setProgress(newProgress);
+    setProgress(Math.min(input.length, 10));
   };
 
-  // Submit function ( does not submit to supabase, just takes to new page )
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!maleLeadName) return;
 
-    if (!maleLeadName) return; // Ensure the name field is filled
-
-    setIsLoading(true);
+    setIsLoading(true); // Start spinner
 
     try {
-      // Simulating API request for data insertion
-      // Replace with actual data insertion logic
-      setTimeout(() => {
-        window.location.href = "/craft/second";
-      }, 1000);
+      await addStory(userId, storyId, maleLeadName);
+
+      // Redirect to the new page after successful insertion
+      console.log("Story inserted successfully");
+      window.location.assign("/craft/second");
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-      setProgress(10); // Ensures the bar fills to 10% upon successful submit
+      console.error("Error submitting story:", error);
     }
+    // We no longer stop the spinner here, so it keeps spinning
   };
-
-  // Submit function that sends to Supabase
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); // Prevent default form behavior
-
-  //   if (!name || !email) return; // Ensure fields are filled and user is authenticated
-
-  //   setIsLoading(true); // Start loading
-
-  //   try {
-  //     // Insert user data into Supabase
-  //     const { error } = await supabase.from("kuvamaone").insert({
-  //       name: name,
-  //       email: email,
-  //       user_id: userId,
-  //     });
-
-  //     if (error) throw error; // If there's an error, handle it
-
-  //     // Redirect only after successful data insertion
-  //     window.location.href = "/craft/second";
-  //   } catch (error) {
-  //     console.error("Error inserting data:", error);
-  //     alert("An error occurred while submitting your data. Please try again.");
-  //     setIsLoading(false); // Stop loading spinner only on error
-  //   }
-  // };
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
@@ -158,42 +134,6 @@ const page = () => {
           </div>
         </div>
       </SectionContainer>
-
-      {/* Image Section */}
-      {/* Just uncomment to put a picture in the right side on large screen and no image on mobile */}
-      {/* <SectionContainer className="page-banner--image hidden md:flex md:w-1/2 justify-center items-center relative bg-[#F3F5F8] min-h-screen">
-  <div className="relative">
-    <Image
-      src={stickyNote}
-      width={500}
-      height={500}
-      alt="Page Banner"
-      objectFit="cover"
-      className="rounded-md"
-    />
-    <div className="absolute inset-0 flex justify-center items-center font-normal font-reenie">
-      <div className="w-[400px] h-[400px] text-black rounded-md overflow-hidden z-10 flex flex-col justify-center items-center">
-        <p className="w-full m-0 mb-2 overflow-hidden">
-          Good morning, Anita! 🌞✨
-        </p>
-        <p className="w-full m-0 mb-2 mt-4 overflow-hidden text-caveat">
-          Today is another beautiful day to attract everything you desire.
-          The universe is aligning in your favor, bringing you closer to
-          your dream job with every positive thought and action.
-        </p>
-        <p className="w-full m-0 mb-2 overflow-hidden text-ellipsis">
-          You're attracting opportunities that are meant just for you, and
-          they are on their way. Embrace today with a heart full of
-          gratitude and a mind focused on your goals.
-        </p>
-        <p className="w-full m-0 overflow-hidden">
-          Wishing you a day full of joy, success, and endless
-          possibilities! 🚀🌈
-        </p>
-      </div>
-    </div>
-  </div>
-</SectionContainer> */}
     </SectionContainer>
   );
 };

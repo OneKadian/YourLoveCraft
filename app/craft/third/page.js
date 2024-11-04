@@ -1,13 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateStoryByStoryId } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [maleLeadJob, setMaleLeadJob] = useState("");
   const [progress, setProgress] = useState(20);
+  const [storyId, setStoryId] = useState(null);
 
   const handleJobChange = (e) => {
     const input = e.target.value;
@@ -18,22 +20,31 @@ const ThirdPage = () => {
     setProgress(20 + newProgress); // Starting from 10% to add to the previous progress
   };
 
+  useEffect(() => {
+    // Retrieve the existing story ID from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!maleLeadJob) return;
 
-    setIsLoading(true);
+    setIsLoading(true); // Start spinner
+
     try {
-      setTimeout(() => {
-        window.location.href = "/craft/fourth";
-      }, 1000);
+      // Update the story row with matching story_id
+      await updateStoryByStoryId(storyId, maleLeadJob);
+
+      // Redirect to the next page after successful update
+      console.log("Job updated successfully");
+      window.location.assign("/craft/fourth");
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-      setProgress(30); // Ensures the bar fills to 10% upon successful submit
+      console.error("Error updating story:", error);
     }
+    // Spinner keeps spinning as per requirement
   };
 
   return (

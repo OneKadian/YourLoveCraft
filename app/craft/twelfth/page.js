@@ -7,9 +7,8 @@ import Box from "@mui/material/Box";
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [chapterGenre, setChapterGenre] = useState("");
-  const [progress, setProgress] = useState(90);
+  const [progress, setProgress] = useState(95);
   const [selectedOption, setSelectedOption] = useState("");
-  const [customInput, setCustomInput] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
@@ -18,29 +17,9 @@ const ThirdPage = () => {
 
   const handleGenreChange = (option) => {
     setSelectedOption(option);
+    setChapterGenre(option);
     setIsDropdownOpen(false);
-
-    if (option !== "Create Your Own") {
-      setChapterGenre(option);
-      setCustomInput("");
-      setProgress(95);
-    } else {
-      setChapterGenre("");
-      setProgress(90);
-    }
-  };
-
-  const handleCustomInputChange = (e) => {
-    const input = e.target.value;
-    setCustomInput(input);
-    setChapterGenre(input);
-
-    // Update progress based on input length
-    if (selectedOption === "Create Your Own" && input.length > 0) {
-      setProgress(95);
-    } else if (selectedOption === "Create Your Own" && input.length === 0) {
-      setProgress(90);
-    }
+    setProgress(98); // Sets progress to 98 on selection
   };
 
   const handleSubmit = async (e) => {
@@ -50,14 +29,14 @@ const ThirdPage = () => {
     setIsLoading(true);
     try {
       setTimeout(() => {
-        window.location.href = "/craft/twelfth";
+        setProgress(100); // Progress to 100 on submission
+        window.location.href = "/craft/final";
       }, 1000);
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
-      setProgress(95); // Ensures the bar fills to 98% upon successful submit
     }
   };
 
@@ -75,7 +54,7 @@ const ThirdPage = () => {
             </div>
 
             <h2 className="text-3xl font-semibold text-gray-700 text-center mt-12">
-              What will be the genre for the chapter?
+              How long do you want this chapter to be?
             </h2>
 
             <div className="mt-4 flex w-full flex-col pb-4">
@@ -113,16 +92,9 @@ const ThirdPage = () => {
                   >
                     <ul className="py-2 text-md text-gray-700">
                       {[
-                        "Romance – From sweet first loves to forbidden passions, romance remains one of the most popular genres.",
-                        "Fantasy – Worlds filled with magic, mythical creatures, and epic adventures captivate many readers.",
-                        "Teen Fiction – Stories about high school life, friendships, and the ups and downs of teenage relationships.",
-                        "Mystery/Thriller – Intriguing plots with suspense, crime, or detective work that keep readers on edge.",
-                        "Paranormal – Vampires, werewolves, and supernatural beings create an enticingly dark atmosphere.",
-                        "Science Fiction – Futuristic settings, space travel, and advanced technology excite this genre.",
-                        "Adventure – High-stakes quests and daring escapades are often featured here, perfect for thrill-seekers.",
-                        "Action – Fast-paced scenes, battles, and resilient characters facing danger or challenges.",
-                        "Horror – Eerie, unsettling, and often frightening, horror stories are popular for their spine-chilling narratives.",
-                        "Fanfiction – Stories involving popular characters or celebrities, reimagined in unique scenarios by fans.",
+                        "Short (500 words)",
+                        "Medium (1000 words)",
+                        "Long (1500 words)",
                       ].map((option, index) => (
                         <li
                           key={index}
@@ -133,33 +105,7 @@ const ThirdPage = () => {
                           </p>
                         </li>
                       ))}
-                      <li onClick={() => handleGenreChange("Create Your Own")}>
-                        <p className="block px-4 cursor-pointer font-semibold py-2 hover:bg-gray-100">
-                          Create Your Own
-                        </p>
-                      </li>
                     </ul>
-                  </div>
-                )}
-
-                {/* Textarea for custom input */}
-                {selectedOption === "Create Your Own" && (
-                  <div>
-                    <div className="flex justify-end items-center">
-                      <span className="block mt-2 px-2 text-sm text-gray-500 justify-end">
-                        {customInput.length}/100
-                      </span>
-                    </div>
-                    <textarea
-                      type="text"
-                      id="genre"
-                      name="genre"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 h-[100px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2"
-                      placeholder="Describe your own unique genre for this chapter."
-                      maxLength={100}
-                      value={customInput}
-                      onChange={handleCustomInputChange}
-                    />
                   </div>
                 )}
               </div>
@@ -168,11 +114,9 @@ const ThirdPage = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={
-                  isLoading || (!chapterGenre && customInput.length === 0)
-                }
+                disabled={isLoading || !chapterGenre}
                 className={`mt-3 w-full flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || (!chapterGenre && customInput.length === 0)
+                  isLoading || !chapterGenre
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

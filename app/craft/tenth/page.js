@@ -14,7 +14,7 @@ const ThirdPage = () => {
     setMaleLeadJob(input);
 
     // Update the progress bar based on the input length, maxing out at 20%
-    const newProgress = Math.min(input.length / 10, 10);
+    const newProgress = Math.min(input.length / 10, 5);
     setProgress(85 + newProgress); // Starting from 10% to add to the previous progress
   };
 
@@ -32,7 +32,7 @@ const ThirdPage = () => {
       alert("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
-      setProgress(95); // Ensures the bar fills to 10% upon successful submit
+      setProgress(90); // Ensures the bar fills to 10% upon successful submit
     }
   };
 
