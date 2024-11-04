@@ -44,7 +44,6 @@ const ThirdPage = () => {
     } catch (error) {
       console.error("Error updating story:", error);
     }
-    // Spinner keeps spinning as per requirement
   };
 
   return (
