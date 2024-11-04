@@ -32,7 +32,7 @@ const ThirdPage = () => {
     e.preventDefault();
     if (!maleLeadJob) return;
 
-    setIsLoading(true); // Start spinner
+    setIsLoading(true);
 
     try {
       // Update the story row with matching story_id
