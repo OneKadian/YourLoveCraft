@@ -1,37 +1,49 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateFemaleLeadOccupation } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [maleLeadJob, setMaleLeadJob] = useState("");
+  const [femaleLeadJob, setFemaleLeadJob] = useState("");
   const [progress, setProgress] = useState(60);
+  const [storyId, setStoryId] = useState(null);
 
   const handleJobChange = (e) => {
     const input = e.target.value;
-    setMaleLeadJob(input);
+    setFemaleLeadJob(input);
 
     // Update the progress bar based on the input length, maxing out at 20%
     const newProgress = Math.min(input.length / 10, 10);
     setProgress(60 + newProgress); // Starting from 10% to add to the previous progress
   };
 
+  useEffect(() => {
+    // Retrieve the existing story ID from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!maleLeadJob) return;
+    if (!femaleLeadJob || !storyId) return;
 
     setIsLoading(true);
     try {
-      setTimeout(() => {
-        window.location.href = "/craft/eighth";
-      }, 1000);
+      // Update the story row with matching story_id
+      await updateFemaleLeadOccupation(storyId, femaleLeadJob);
+
+      // Redirect to the next page after successful update
+      console.log("Occupation updated successfully");
+      window.location.href = "/craft/eighth";
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating female lead occupation:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
       setProgress(70); // Ensures the bar fills to 10% upon successful submit
     }
   };
@@ -63,7 +75,7 @@ const ThirdPage = () => {
                     Describe her line of work
                   </label>
                   <span className="block mb-2 text-sm text-gray-500">
-                    {maleLeadJob.length}/300
+                    {femaleLeadJob.length}/300
                   </span>
                 </div>
                 <textarea
@@ -73,7 +85,7 @@ const ThirdPage = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 h-[240px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="Confident and magnetic, she’s a top creative director, leading ad campaigns that captivate and inspire. Her days are a blend of brainstorming sessions, high-stakes presentations, and late-night edits. Driven and detail-oriented, she’s passionate about her work—and devoted to the one who truly sees her."
                   maxLength={300}
-                  value={maleLeadJob}
+                  value={femaleLeadJob}
                   onChange={handleJobChange}
                 />
               </div>
@@ -81,9 +93,9 @@ const ThirdPage = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading || !maleLeadJob}
+                disabled={isLoading || !femaleLeadJob}
                 className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || !maleLeadJob
+                  isLoading || !femaleLeadJob
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

@@ -1,38 +1,45 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { updateStoryFantasies } from "../../../supabase/supabaseRequests.js"; // Import the updateStoryFantasies function
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [maleLeadJob, setMaleLeadJob] = useState("");
+  const [storyFantasies, setStoryFantasies] = useState(""); // Change state name
   const [progress, setProgress] = useState(85);
+  const [storyId, setStoryId] = useState(null); // State for story ID
 
-  const handleJobChange = (e) => {
+  useEffect(() => {
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
+
+  const handleFantasiesChange = (e) => {
     const input = e.target.value;
-    setMaleLeadJob(input);
+    setStoryFantasies(input);
 
     // Update the progress bar based on the input length, maxing out at 20%
     const newProgress = Math.min(input.length / 10, 5);
-    setProgress(85 + newProgress); // Starting from 10% to add to the previous progress
+    setProgress(85 + newProgress); // Starting from 85% to add to the previous progress
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!maleLeadJob) return;
+    if (!storyFantasies) return;
 
     setIsLoading(true);
     try {
-      setTimeout(() => {
-        window.location.href = "/craft/eleventh";
-      }, 1000);
+      await updateStoryFantasies(storyId, storyFantasies); // Use updateStoryFantasies for submission
+      window.location.href = "/craft/eleventh"; // Redirect after submission
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
-      setProgress(90); // Ensures the bar fills to 10% upon successful submit
+      setProgress(90); // Ensures the bar fills to 90% upon successful submit
     }
   };
 
@@ -64,7 +71,7 @@ const ThirdPage = () => {
                     Try making some connection to the plot
                   </label>
                   <span className="block mb-2 text-sm text-gray-500">
-                    {maleLeadJob.length}/200
+                    {storyFantasies.length}/200
                   </span>
                 </div>
                 <textarea
@@ -74,17 +81,17 @@ const ThirdPage = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 h-[240px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="She would stumble into his arms, his breath warm on her neck as his hand lingers just a little too long, without a word, he grabs her waist, pulling her close, declaring her his with a fierce, unyielding kiss."
                   maxLength={200}
-                  value={maleLeadJob}
-                  onChange={handleJobChange}
+                  value={storyFantasies}
+                  onChange={handleFantasiesChange}
                 />
               </div>
 
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading || !maleLeadJob}
+                disabled={isLoading || !storyFantasies}
                 className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || !maleLeadJob
+                  isLoading || !storyFantasies
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

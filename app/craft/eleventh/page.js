@@ -1,63 +1,77 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateStoryGenre } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [chapterGenre, setChapterGenre] = useState("");
+  const [storyGenre, setStoryGenre] = useState("");
   const [progress, setProgress] = useState(90);
   const [selectedOption, setSelectedOption] = useState("");
   const [customInput, setCustomInput] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [storyId, setStoryId] = useState(null);
 
+  // Load story ID from localStorage
+  useEffect(() => {
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
+
+  // Handle dropdown toggle
   const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen((prevState) => !prevState);
   };
 
+  // Handle option selection
   const handleGenreChange = (option) => {
     setSelectedOption(option);
+    setCustomInput("");
     setIsDropdownOpen(false);
 
-    if (option !== "Create Your Own") {
-      setChapterGenre(option);
-      setCustomInput("");
-      setProgress(95);
-    } else {
-      setChapterGenre("");
+    // Set storyGenre based on option or custom input
+    if (option === "Create Your Own") {
+      setStoryGenre(customInput);
       setProgress(90);
+    } else {
+      setStoryGenre(option);
+      setProgress(95);
     }
   };
 
+  // Handle custom input change
   const handleCustomInputChange = (e) => {
     const input = e.target.value;
     setCustomInput(input);
-    setChapterGenre(input);
 
-    // Update progress based on input length
-    if (selectedOption === "Create Your Own" && input.length > 0) {
-      setProgress(95);
-    } else if (selectedOption === "Create Your Own" && input.length === 0) {
-      setProgress(90);
+    // Keep selectedOption as "Create Your Own" and only update storyGenre and progress
+    if (selectedOption === "Create Your Own") {
+      setStoryGenre(input);
+      setProgress(input.length > 0 ? 95 : 90);
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!chapterGenre) return;
+    if (!storyGenre || !storyId) return;
 
     setIsLoading(true);
     try {
+      await updateStoryGenre(storyId, storyGenre);
       setTimeout(() => {
         window.location.href = "/craft/twelfth";
       }, 1000);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating story genre:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
-      setProgress(95); // Ensures the bar fills to 98% upon successful submit
+      // setIsLoading(false);
+      setProgress(95);
     }
   };
 
@@ -169,10 +183,10 @@ const ThirdPage = () => {
                 type="submit"
                 onClick={handleSubmit}
                 disabled={
-                  isLoading || (!chapterGenre && customInput.length === 0)
+                  isLoading || (!storyGenre && customInput.length === 0)
                 }
                 className={`mt-3 w-full flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || (!chapterGenre && customInput.length === 0)
+                  isLoading || (!storyGenre && customInput.length === 0)
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

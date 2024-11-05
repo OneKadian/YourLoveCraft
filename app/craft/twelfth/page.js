@@ -1,44 +1,64 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateStoryLength } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [chapterGenre, setChapterGenre] = useState("");
+  const [chapterLength, setChapterLength] = useState("");
   const [progress, setProgress] = useState(95);
   const [selectedOption, setSelectedOption] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [storyId, setStoryId] = useState(null);
 
+  // Mapping options to their respective word counts
+  const optionsMap = {
+    "Short (500 words)": 500,
+    "Medium (1000 words)": 1000,
+    "Long (1500 words)": 1500,
+  };
+
+  // Toggle dropdown menu
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Update chapter length based on selected option
   const handleGenreChange = (option) => {
     setSelectedOption(option);
-    setChapterGenre(option);
+    setChapterLength(optionsMap[option]); // Set chapter length to the corresponding number
     setIsDropdownOpen(false);
-    setProgress(98); // Sets progress to 98 on selection
+    setProgress(98); // Update progress on selection
   };
 
+  // Submit the selected chapter length
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!chapterGenre) return;
+    if (!chapterLength || !storyId) return;
 
     setIsLoading(true);
     try {
+      await updateStoryLength(storyId, chapterLength); // Update chapter length
       setTimeout(() => {
-        setProgress(100); // Progress to 100 on submission
-        window.location.href = "/craft/final";
+        setProgress(100); // Set final progress
+        window.location.href = "/craft/final"; // Redirect to final page
       }, 1000);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating chapter length:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
+      setProgress(98); // Update progress on selection
     }
   };
+
+  useEffect(() => {
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
@@ -91,11 +111,7 @@ const ThirdPage = () => {
                     className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-full mt-2"
                   >
                     <ul className="py-2 text-md text-gray-700">
-                      {[
-                        "Short (500 words)",
-                        "Medium (1000 words)",
-                        "Long (1500 words)",
-                      ].map((option, index) => (
+                      {Object.keys(optionsMap).map((option, index) => (
                         <li
                           key={index}
                           onClick={() => handleGenreChange(option)}
@@ -114,9 +130,9 @@ const ThirdPage = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading || !chapterGenre}
+                disabled={isLoading || !chapterLength}
                 className={`mt-3 w-full flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || !chapterGenre
+                  isLoading || !chapterLength
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

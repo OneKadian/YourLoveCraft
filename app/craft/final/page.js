@@ -1,41 +1,53 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import stickyNote from "../../public/stickyNote3.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
-import { supabase } from "../../../supabase/supabaseClient.js"; // Correctly import supabase from the supabase folder
+import { updateStoryTitle } from "../../../supabase/supabaseRequests.js";
 
 const page = () => {
-  // State and Functions for Step 1
   const { userId } = useAuth();
-
   const [isLoading, setIsLoading] = useState(false);
-  const [title, setTitle] = useState("");
-  const [progress, setProgress] = useState(95);
-  // Updates the Progess bar and sets the name equal to male lead name
-  const handleNameChange = (e) => {
-    const input = e.target.value;
-    setTitle(input);
+  const [storyTitle, setStoryTitle] = useState("");
+  const [progress, setProgress] = useState(98);
+  const [storyId, setStoryId] = useState(null);
 
-    // Set progress based on the input length, maxing out at 10%
-    const newProgress = Math.min(input.length, 5);
-    setProgress(95 + newProgress);
+  // Fetch storyId from localStorage on component mount
+  useEffect(() => {
+    const storedStoryId = localStorage.getItem("story_id");
+    if (storedStoryId) {
+      setStoryId(storedStoryId);
+    }
+  }, []);
+
+  // Handle title input change and update progress
+  const handleTitleChange = (e) => {
+    const input = e.target.value;
+    setStoryTitle(input);
+
+    // Update progress based on input length
+    const newProgress = Math.min(input.length, 2);
+    setProgress(98 + newProgress);
   };
 
-  // Submit function ( does not submit to supabase, just takes to new page )
+  // Submit the story title to the database and navigate to /crafting
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title) return; // Ensure the name field is filled
+    if (!storyTitle || !storyId) return;
 
     setIsLoading(true);
 
     try {
-      // Simulating API request for data insertion
-      // Replace with actual data insertion logic
+      // Submit the title using updateStoryTitle function
+      await updateStoryTitle(storyId, storyTitle);
+
+      // After successful submission, remove story_id from localStorage
+      // localStorage.removeItem("story_id");
+
       setTimeout(() => {
         window.location.href = "/crafting";
       }, 1000);
@@ -43,37 +55,9 @@ const page = () => {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
-      setProgress(100); // Ensures the bar fills to 10% upon successful submit
+      setProgress(100); // Complete progress bar upon successful submission
     }
   };
-
-  // Submit function that sends to Supabase
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); // Prevent default form behavior
-
-  //   if (!name || !email) return; // Ensure fields are filled and user is authenticated
-
-  //   setIsLoading(true); // Start loading
-
-  //   try {
-  //     // Insert user data into Supabase
-  //     const { error } = await supabase.from("kuvamaone").insert({
-  //       name: name,
-  //       email: email,
-  //       user_id: userId,
-  //     });
-
-  //     if (error) throw error; // If there's an error, handle it
-
-  //     // Redirect only after successful data insertion
-  //     window.location.href = "/craft/second";
-  //   } catch (error) {
-  //     console.error("Error inserting data:", error);
-  //     alert("An error occurred while submitting your data. Please try again.");
-  //     setIsLoading(false); // Stop loading spinner only on error
-  //   }
-  // };
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
@@ -105,17 +89,17 @@ const page = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="Don't overthink it, This can be changed later"
                   required
-                  value={title}
-                  onChange={handleNameChange}
+                  value={storyTitle}
+                  onChange={handleTitleChange}
                 />
               </div>
 
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading || !title}
+                disabled={isLoading || !storyTitle}
                 className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || !title
+                  isLoading || !storyTitle
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}
@@ -155,42 +139,6 @@ const page = () => {
           </div>
         </div>
       </SectionContainer>
-
-      {/* Image Section */}
-      {/* Just uncomment to put a picture in the right side on large screen and no image on mobile */}
-      {/* <SectionContainer className="page-banner--image hidden md:flex md:w-1/2 justify-center items-center relative bg-[#F3F5F8] min-h-screen">
-  <div className="relative">
-    <Image
-      src={stickyNote}
-      width={500}
-      height={500}
-      alt="Page Banner"
-      objectFit="cover"
-      className="rounded-md"
-    />
-    <div className="absolute inset-0 flex justify-center items-center font-normal font-reenie">
-      <div className="w-[400px] h-[400px] text-black rounded-md overflow-hidden z-10 flex flex-col justify-center items-center">
-        <p className="w-full m-0 mb-2 overflow-hidden">
-          Good morning, Anita! 🌞✨
-        </p>
-        <p className="w-full m-0 mb-2 mt-4 overflow-hidden text-caveat">
-          Today is another beautiful day to attract everything you desire.
-          The universe is aligning in your favor, bringing you closer to
-          your dream job with every positive thought and action.
-        </p>
-        <p className="w-full m-0 mb-2 overflow-hidden text-ellipsis">
-          You're attracting opportunities that are meant just for you, and
-          they are on their way. Embrace today with a heart full of
-          gratitude and a mind focused on your goals.
-        </p>
-        <p className="w-full m-0 overflow-hidden">
-          Wishing you a day full of joy, success, and endless
-          possibilities! 🚀🌈
-        </p>
-      </div>
-    </div>
-  </div>
-</SectionContainer> */}
     </SectionContainer>
   );
 };

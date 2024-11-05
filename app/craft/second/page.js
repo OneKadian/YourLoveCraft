@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import { updateStoryByStoryId } from "../../../supabase/supabaseRequests.js";
+import { updateMaleLeadLooks } from "../../../supabase/supabaseRequests.js";
 
 const SecondPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ const SecondPage = () => {
 
     try {
       // Update the story row with matching story_id
-      await updateStoryByStoryId(storyId, maleLeadLooks);
+      await updateMaleLeadLooks(storyId, maleLeadLooks);
 
       // Redirect to the next page after successful update
       console.log("Looks updated successfully");

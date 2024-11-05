@@ -1,38 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateStoryPlot } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [maleLeadJob, setMaleLeadJob] = useState("");
+  const [storyPlot, setStoryPlot] = useState(""); // Change state name
   const [progress, setProgress] = useState(80);
+  const [storyId, setStoryId] = useState(null); // State for story ID
+
+  useEffect(() => {
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
 
   const handleJobChange = (e) => {
     const input = e.target.value;
-    setMaleLeadJob(input);
+    setStoryPlot(input);
 
     // Update the progress bar based on the input length, maxing out at 20%
     const newProgress = Math.min(input.length / 10, 5);
-    setProgress(80 + newProgress); // Starting from 10% to add to the previous progress
+    setProgress(80 + newProgress); // Starting from 80% to add to the previous progress
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!maleLeadJob) return;
+    if (!storyPlot) return;
 
     setIsLoading(true);
     try {
-      setTimeout(() => {
-        window.location.href = "/craft/tenth";
-      }, 1000);
+      // Call the updateStoryPlot function
+      await updateStoryPlot(storyId, storyPlot);
+      // Redirect to the next page after successful submission
+      window.location.href = "/craft/tenth";
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
-      setProgress(85); // Ensures the bar fills to 10% upon successful submit
+      setProgress(85); // Ensures the bar fills to 85% upon successful submit
     }
   };
 
@@ -63,7 +72,7 @@ const ThirdPage = () => {
                     How should the story start?
                   </label>
                   <span className="block mb-2 text-sm text-gray-500">
-                    {maleLeadJob.length}/400
+                    {storyPlot.length}/400
                   </span>
                 </div>
                 <textarea
@@ -73,7 +82,7 @@ const ThirdPage = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 h-[240px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="Describe your chapter's world: the setting, side characters, and flow. Don't worry—it can all be edited and refined later!"
                   maxLength={400}
-                  value={maleLeadJob}
+                  value={storyPlot}
                   onChange={handleJobChange}
                 />
               </div>
@@ -81,9 +90,9 @@ const ThirdPage = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading || !maleLeadJob}
+                disabled={isLoading || !storyPlot}
                 className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || !maleLeadJob
+                  isLoading || !storyPlot
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

@@ -1,65 +1,79 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateMaleLeadPersonality } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [maleLeadJob, setMaleLeadJob] = useState("");
+  const [maleLeadPersonality, setMaleLeadPersonality] = useState("");
   const [progress, setProgress] = useState(30);
   const [selectedOption, setSelectedOption] = useState("");
   const [customInput, setCustomInput] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [storyId, setStoryId] = useState(null);
 
+  // Handle dropdown toggle
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleJobChange = (option) => {
+  // Handle option selection
+  const handlePersonalityChange = (option) => {
     setSelectedOption(option);
+    setCustomInput(""); // Clear custom input when a predefined option is selected
     setIsDropdownOpen(false);
 
-    if (option !== "Create Your Own") {
-      setMaleLeadJob(option);
-      setCustomInput("");
-      setProgress(40);
-    } else {
-      setMaleLeadJob("");
+    if (option === "Create Your Own") {
+      setMaleLeadPersonality(customInput);
       setProgress(30);
+    } else {
+      setMaleLeadPersonality(option);
+      setProgress(40);
     }
   };
 
+  // Handle custom input change
   const handleCustomInputChange = (e) => {
     const input = e.target.value;
     setCustomInput(input);
-    setMaleLeadJob(input);
 
-    // Update progress based on input length
-    if (selectedOption === "Create Your Own" && input.length > 0) {
-      setProgress(40);
-    } else if (selectedOption === "Create Your Own" && input.length === 0) {
-      setProgress(30);
+    // Clear selected option if the user starts typing in custom input
+    if (selectedOption) {
+      setSelectedOption("");
     }
+
+    // Update maleLeadPersonality and progress based on input length
+    setMaleLeadPersonality(input);
+    setProgress(input.length > 0 ? 40 : 30);
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!maleLeadJob) return;
+    if (!maleLeadPersonality) return;
 
     setIsLoading(true);
     try {
+      // Update story in the database
+      await updateMaleLeadPersonality(storyId, maleLeadPersonality);
+      // Redirect to the next page after 1 second delay for spinner effect
       setTimeout(() => {
-        window.location.href = "/craft/fifth";
+        window.location.assign("/craft/fifth");
       }, 1000);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating story:", error);
       alert("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-      setProgress(40); // Ensures the bar fills to 10% upon successful submit
     }
   };
+
+  useEffect(() => {
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
@@ -114,7 +128,7 @@ const ThirdPage = () => {
                     <ul className="py-2 text-md text-gray-700">
                       <li
                         onClick={() =>
-                          handleJobChange(
+                          handlePersonalityChange(
                             "The Bad Boy: Mysterious, rebellious, and a bit dangerous..."
                           )
                         }
@@ -128,7 +142,7 @@ const ThirdPage = () => {
                       </li>
                       <li
                         onClick={() =>
-                          handleJobChange(
+                          handlePersonalityChange(
                             "The CEO/Billionaire: Wealthy, powerful, and often intimidating..."
                           )
                         }
@@ -141,7 +155,7 @@ const ThirdPage = () => {
                       </li>
                       <li
                         onClick={() =>
-                          handleJobChange(
+                          handlePersonalityChange(
                             "The Boy Next Door: More approachable and down-to-earth..."
                           )
                         }
@@ -155,7 +169,7 @@ const ThirdPage = () => {
                       </li>
                       <li
                         onClick={() =>
-                          handleJobChange(
+                          handlePersonalityChange(
                             "The Best Friend: Supportive and loyal, leading to a slow-burn romance..."
                           )
                         }
@@ -166,7 +180,11 @@ const ThirdPage = () => {
                           friendship blossoms into love.
                         </p>
                       </li>
-                      <li onClick={() => handleJobChange("Create Your Own")}>
+                      <li
+                        onClick={() =>
+                          handlePersonalityChange("Create Your Own")
+                        }
+                      >
                         <p className="block px-4 cursor-pointer font-semibold py-2 hover:bg-gray-100">
                           Create Your Own
                         </p>
@@ -201,11 +219,9 @@ const ThirdPage = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={
-                  isLoading || (!maleLeadJob && customInput.length === 0)
-                }
+                disabled={isLoading || !maleLeadPersonality}
                 className={`mt-3 w-full flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || (!maleLeadJob && customInput.length === 0)
+                  isLoading || !maleLeadPersonality
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}
@@ -222,23 +238,7 @@ const ThirdPage = () => {
                     <CircularProgress color="inherit" size={24} />
                   </Box>
                 ) : (
-                  <>
-                    <p>Continue</p>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-4 h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                      />
-                    </svg>
-                  </>
+                  "Continue"
                 )}
               </button>
             </div>

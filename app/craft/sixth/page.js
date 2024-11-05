@@ -1,37 +1,49 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { updateFemaleLeadAppearance } from "../../../supabase/supabaseRequests.js";
 
 const SecondPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [maleLeadLooks, setMaleLeadLooks] = useState("");
+  const [femaleLeadLooks, setFemaleLeadLooks] = useState("");
   const [progress, setProgress] = useState(50);
+  const [storyId, setStoryId] = useState(null);
 
   const handleLooksChange = (e) => {
     const input = e.target.value;
-    setMaleLeadLooks(input);
+    setFemaleLeadLooks(input);
 
     // Update the progress bar based on the input length, maxing out at 20%
     const newProgress = Math.min(input.length / 15, 10);
     setProgress(50 + newProgress); // Starting from 10% to add to the previous progress
   };
 
+  useEffect(() => {
+    // Retrieve the existing story ID from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    if (savedStoryId) {
+      setStoryId(savedStoryId);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!maleLeadLooks) return;
+    if (!femaleLeadLooks || !storyId) return;
 
     setIsLoading(true);
     try {
-      setTimeout(() => {
-        window.location.href = "/craft/seventh";
-      }, 1000);
+      // Update the story row with matching story_id
+      await updateFemaleLeadAppearance(storyId, femaleLeadLooks);
+
+      // Redirect to the next page after successful update
+      console.log("Appearance updated successfully");
+      window.location.href = "/craft/seventh";
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating female lead appearance:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
       setProgress(60); // Ensures the bar fills to 10% upon successful submit
     }
   };
@@ -63,7 +75,7 @@ const SecondPage = () => {
                     Describe her appearance
                   </label>
                   <span className="block mb-2 text-sm text-gray-500">
-                    {maleLeadLooks.length}/300
+                    {femaleLeadLooks.length}/300
                   </span>
                 </div>
                 <textarea
@@ -73,7 +85,7 @@ const SecondPage = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 h-[240px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   placeholder="With deep green eyes that hold a captivating sparkle, she has full lips and high cheekbones that frame a warm, inviting smile. Her long, wavy chestnut hair cascades down her shoulders, and her graceful, hourglass figure draws every eye. Her movements are poised, radiating confidence and allure."
                   maxLength={300}
-                  value={maleLeadLooks}
+                  value={femaleLeadLooks}
                   onChange={handleLooksChange}
                 />
               </div>
@@ -81,9 +93,9 @@ const SecondPage = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading || !maleLeadLooks}
+                disabled={isLoading || !femaleLeadLooks}
                 className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
-                  isLoading || !maleLeadLooks
+                  isLoading || !femaleLeadLooks
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}
