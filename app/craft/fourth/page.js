@@ -11,6 +11,7 @@ const ThirdPage = () => {
   const [progress, setProgress] = useState(30);
   const [selectedOption, setSelectedOption] = useState("");
   const [customInput, setCustomInput] = useState("");
+  const [isCustomInput, setIsCustomInput] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [storyId, setStoryId] = useState(null);
 
@@ -19,19 +20,23 @@ const ThirdPage = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Handle option selection
   const handlePersonalityChange = (option) => {
     setSelectedOption(option);
-    setCustomInput(""); // Clear custom input when a predefined option is selected
     setIsDropdownOpen(false);
 
+    // If "Create Your Own" is selected, switch to custom input mode
     if (option === "Create Your Own") {
-      setMaleLeadPersonality(customInput);
+      setIsCustomInput(true);
+      setMaleLeadPersonality(""); // Clear maleLeadPersonality for new custom input
       setProgress(30);
     } else {
-      setMaleLeadPersonality(option);
+      setIsCustomInput(false);
+      setMaleLeadPersonality(option); // Set personality directly if predefined option is selected
       setProgress(40);
     }
+
+    // Clear custom input field when a predefined option is selected
+    setCustomInput("");
   };
 
   // Handle custom input change
@@ -39,10 +44,9 @@ const ThirdPage = () => {
     const input = e.target.value;
     setCustomInput(input);
 
-    // Clear selected option if the user starts typing in custom input
-    if (selectedOption) {
-      setSelectedOption("");
-    }
+    // Switch to custom input mode if typing in textarea
+    setIsCustomInput(true);
+    setSelectedOption(""); // Clear dropdown selection for custom input
 
     // Update maleLeadPersonality and progress based on input length
     setMaleLeadPersonality(input);
@@ -194,7 +198,27 @@ const ThirdPage = () => {
                 )}
 
                 {/* Textarea for custom input */}
-                {selectedOption === "Create Your Own" && (
+                {/* {selectedOption === "Create Your Own" && (
+                  <div>
+                    <div className="flex justify-end items-center">
+                      <span className="block mt-2 px-2 text-sm text-gray-500 justify-end">
+                        {customInput.length}/200
+                      </span>
+                    </div>
+                    <textarea
+                      type="text"
+                      id="job"
+                      name="job"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 h-[240px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2"
+                      placeholder="Describe his unique traits, background, or personality in 200 characters or less."
+                      maxLength={200}
+                      value={customInput}
+                      onChange={handleCustomInputChange}
+                    />
+                  </div>
+                )} */}
+                {/* Render textarea based on isCustomInput flag */}
+                {isCustomInput && (
                   <div>
                     <div className="flex justify-end items-center">
                       <span className="block mt-2 px-2 text-sm text-gray-500 justify-end">

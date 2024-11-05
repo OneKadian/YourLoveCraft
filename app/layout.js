@@ -6,7 +6,7 @@ import Header from "./components/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Kuvama",
+  title: "Your Love Craft",
   description: "If you can believe, you can achieve",
 };
 

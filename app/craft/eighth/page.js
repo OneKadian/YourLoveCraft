@@ -21,7 +21,8 @@ const ThirdPage = () => {
   // Handle option selection
   const handlePersonalityChange = (option) => {
     setSelectedOption(option);
-    setCustomInput(""); // Clear custom input when a predefined option is selected
+    setCustomInput("");
+    // Clear custom input when a predefined option is selected
 
     if (option === "Create Your Own") {
       // Do not set femaleLeadPersonality here for "Create Your Own"
@@ -148,10 +149,10 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Dreamer: Creative and imaginative, she often sees
-                          the world through a lens of possibility, drawn to
-                          passionate men who inspire her dreams, fostering deep
-                          and meaningful relationships.
+                          The Independent Spirit: Strong-willed and
+                          self-reliant, she values her freedom and seeks men who
+                          respect her independence, building relationships based
+                          on mutual support and respect.
                         </p>
                       </li>
                       <li
