@@ -47,9 +47,18 @@ const page = () => {
       // Submit the title using updateStoryTitle function
       await updateStoryTitle(storyId, storyTitle);
 
-      // After successful submission, remove story_id and male_lead_name from localStorage
+      // After successful submission, remove all related items from localStorage
       localStorage.removeItem("story_id");
       localStorage.removeItem("male_lead_name");
+      localStorage.removeItem("male_lead_job");
+      localStorage.removeItem("male_lead_personality");
+      localStorage.removeItem("female_lead_name");
+      localStorage.removeItem("female_lead_looks");
+      localStorage.removeItem("female_lead_job");
+      localStorage.removeItem("story_plot");
+      localStorage.removeItem("story_fantasies");
+      localStorage.removeItem("story_genre");
+      localStorage.removeItem("chapter_length");
 
       setTimeout(() => {
         window.location.href = "/crafting";

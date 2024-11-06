@@ -64,11 +64,15 @@ const ThirdPage = () => {
               <button
                 type="button"
                 className="bg-white text-black border border-gray-200 font-medium rounded-full text-sm p-2.5 inline-flex items-center mb-4 mt-4"
+                onClick={() =>
+                  localStorage.setItem("female_lead_job", femaleLeadJob)
+                }
               >
                 <ArrowBackIcon className="w-4 h-4 mr-2" />
                 <span>Go back</span>
               </button>
             </Link>
+
             {/* Progress Bar */}
             <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div

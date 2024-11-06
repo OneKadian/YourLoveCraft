@@ -52,41 +52,41 @@ const ThirdPage = () => {
   };
 
   // Handle form submission
-useEffect(() => {
-  // Retrieve the existing story ID and story_genre from local storage
-  const savedStoryId = localStorage.getItem("story_id");
-  const savedStoryGenre = localStorage.getItem("story_genre");
+  useEffect(() => {
+    // Retrieve the existing story ID and story_genre from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    const savedStoryGenre = localStorage.getItem("story_genre");
 
-  if (savedStoryId) setStoryId(savedStoryId);
-  if (savedStoryGenre) setStoryGenre(savedStoryGenre); // Set even if null
-}, []);
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedStoryGenre) setStoryGenre(savedStoryGenre); // Set even if null
+  }, []);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!storyGenre || !storyId) return;
+    if (!storyGenre || !storyId) return;
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  try {
-    // Update the story row with the matching story_id
-    await updateStoryGenre(storyId, storyGenre);
+    try {
+      // Update the story row with the matching story_id
+      await updateStoryGenre(storyId, storyGenre);
 
-    // Save story_genre to local storage
-    localStorage.setItem("story_genre", storyGenre);
+      // Save story_genre to local storage
+      localStorage.setItem("story_genre", storyGenre);
 
-    // Redirect to the next page after successful update
-    console.log("Genre updated successfully");
-    setTimeout(() => {
-      window.location.href = "/craft/twelfth";
-    }, 1000);
-  } catch (error) {
-    console.error("Error updating story genre:", error);
-    alert("An error occurred. Please try again.");
-  } finally {
-    setProgress(95); // Ensures the bar fills to 95% upon successful submit
-  }
-};
+      // Redirect to the next page after successful update
+      console.log("Genre updated successfully");
+      setTimeout(() => {
+        window.location.href = "/craft/twelfth";
+      }, 1000);
+    } catch (error) {
+      console.error("Error updating story genre:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setProgress(95); // Ensures the bar fills to 95% upon successful submit
+    }
+  };
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
@@ -97,11 +97,13 @@ const handleSubmit = async (e) => {
               <button
                 type="button"
                 className="bg-white text-black border border-gray-200 font-medium rounded-full text-sm p-2.5 inline-flex items-center mb-4 mt-4"
+                onClick={() => localStorage.setItem("story_genre", storyGenre)}
               >
                 <ArrowBackIcon className="w-4 h-4 mr-2" />
                 <span>Go back</span>
               </button>
             </Link>
+
             {/* Progress Bar */}
             <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div

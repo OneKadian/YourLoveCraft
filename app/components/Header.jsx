@@ -89,6 +89,31 @@ const Header = async () => {
                 >
                   Craft
                 </Link>
+                {/* <Link
+                  href="/craft/first"
+                  className="inline-flex text-base mx-4 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // Clear all specified items from localStorage
+                      localStorage.removeItem("story_id");
+                      localStorage.removeItem("male_lead_name");
+                      localStorage.removeItem("male_lead_job");
+                      localStorage.removeItem("male_lead_personality");
+                      localStorage.removeItem("female_lead_name");
+                      localStorage.removeItem("female_lead_looks");
+                      localStorage.removeItem("female_lead_job");
+                      localStorage.removeItem("story_plot");
+                      localStorage.removeItem("story_fantasies");
+                      localStorage.removeItem("story_genre");
+                      localStorage.removeItem("chapter_length");
+                    }}
+                  >
+                    Craft
+                  </button>
+                </Link> */}
+
                 <UserButton afterSignOutUrl="/" />
               </div>
             )}
