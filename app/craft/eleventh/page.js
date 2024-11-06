@@ -161,16 +161,22 @@ const ThirdPage = () => {
                         "Action – Fast-paced scenes, battles, and resilient characters facing danger or challenges.",
                         "Horror – Eerie, unsettling, and often frightening, horror stories are popular for their spine-chilling narratives.",
                         "Fanfiction – Stories involving popular characters or celebrities, reimagined in unique scenarios by fans.",
-                      ].map((option, index) => (
-                        <li
-                          key={index}
-                          onClick={() => handleGenreChange(option)}
-                        >
-                          <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                            {option}
-                          </p>
-                        </li>
-                      ))}
+                      ].map((option, index) => {
+                        const title = option.split(" – ")[0]; // Get the genre title
+                        const description = option.split(" – ")[1]; // Get the description
+
+                        return (
+                          <li
+                            key={index}
+                            onClick={() => handleGenreChange(option)}
+                          >
+                            <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                              <span className="font-semibold">{title}:</span>{" "}
+                              {description}
+                            </p>
+                          </li>
+                        );
+                      })}
                       <li onClick={() => handleGenreChange("Create Your Own")}>
                         <p className="block px-4 cursor-pointer font-semibold py-2 hover:bg-gray-100">
                           Create Your Own

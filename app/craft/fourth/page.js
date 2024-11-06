@@ -164,10 +164,11 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Bad Boy: Mysterious, rebellious, and a bit
-                          dangerous, this character often has a rough exterior
-                          with a sensitive or caring side that only the female
-                          lead can bring out.
+                          <span className="font-semibold">The Bad Boy:</span>{" "}
+                          Mysterious, rebellious, and a bit dangerous, this
+                          character often has a rough exterior with a sensitive
+                          or caring side that only the female lead can bring
+                          out.
                         </p>
                       </li>
                       <li
@@ -178,9 +179,12 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The CEO/Billionaire: Wealthy, powerful, and often
-                          intimidating, this character can range from cold and
-                          calculated to passionate and intense.
+                          <span className="font-semibold">
+                            The CEO/Billionaire:
+                          </span>{" "}
+                          Wealthy, powerful, and often intimidating, this
+                          character can range from cold and calculated to
+                          passionate and intense.
                         </p>
                       </li>
                       <li
@@ -191,10 +195,12 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Boy Next Door: More approachable and
-                          down-to-earth, this character is charming, relatable,
-                          and often more straightforward than the typical "bad
-                          boy."
+                          <span className="font-semibold">
+                            The Boy Next Door:
+                          </span>{" "}
+                          More approachable and down-to-earth, this character is
+                          charming, relatable, and often more straightforward
+                          than the typical "bad boy."
                         </p>
                       </li>
                       <li
@@ -205,9 +211,12 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Best Friend: This character is supportive and
-                          loyal, often leading to a slow-burn romance where
-                          friendship blossoms into love.
+                          <span className="font-semibold">
+                            The Best Friend:
+                          </span>{" "}
+                          This character is supportive and loyal, often leading
+                          to a slow-burn romance where friendship blossoms into
+                          love.
                         </p>
                       </li>
                       <li

@@ -152,10 +152,11 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Dreamer: Creative and imaginative, she often sees
-                          the world through a lens of possibility, drawn to
-                          passionate men who inspire her dreams, fostering deep
-                          and meaningful relationships.
+                          <span className="font-semibold">The Dreamer:</span>{" "}
+                          Creative and imaginative, she often sees the world
+                          through a lens of possibility, drawn to passionate men
+                          who inspire her dreams, fostering deep and meaningful
+                          relationships.
                         </p>
                       </li>
                       <li
@@ -166,10 +167,12 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Independent Spirit: Strong-willed and
-                          self-reliant, she values her freedom and seeks men who
-                          respect her independence, building relationships based
-                          on mutual support and respect.
+                          <span className="font-semibold">
+                            The Independent Spirit:
+                          </span>{" "}
+                          Strong-willed and self-reliant, she values her freedom
+                          and seeks men who respect her independence, building
+                          relationships based on mutual support and respect.
                         </p>
                       </li>
                       <li
@@ -180,10 +183,11 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Caregiver: Nurturing and empathetic, she is always
-                          there for her loved ones, often attracted to
-                          vulnerable men, but she values partners who appreciate
-                          and reciprocate her nurturing nature.
+                          <span className="font-semibold">The Caregiver:</span>{" "}
+                          Nurturing and empathetic, she is always there for her
+                          loved ones, often attracted to vulnerable men, but she
+                          values partners who appreciate and reciprocate her
+                          nurturing nature.
                         </p>
                       </li>
                       <li
@@ -194,10 +198,11 @@ const ThirdPage = () => {
                         }
                       >
                         <p className="block px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                          The Adventurer: Spontaneous and fearless, she thrives
-                          on new experiences and is often drawn to
-                          thrill-seeking men, handling relationships with
-                          excitement while knowing when to avoid toxic dynamics.
+                          <span className="font-semibold">The Adventurer:</span>{" "}
+                          Spontaneous and fearless, she thrives on new
+                          experiences and is often drawn to thrill-seeking men,
+                          handling relationships with excitement while knowing
+                          when to avoid toxic dynamics.
                         </p>
                       </li>
                       <li
