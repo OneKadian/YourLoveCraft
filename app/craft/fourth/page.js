@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import Link from "next/link";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { updateMaleLeadPersonality } from "../../../supabase/supabaseRequests.js";
 
 const ThirdPage = () => {
@@ -85,6 +87,15 @@ const ThirdPage = () => {
         <div className="my-auto mx-auto w-full flex flex-col justify-start pt-8 lg:justify-center min-h-screen md:min-h-auto">
           <div className="flex h-max my-4 w-full justify-center items-center flex-col rounded-2xl bg-white px-2 sm:px-14">
             {/* Progress Bar */}
+            <Link href="/craft/third">
+              <button
+                type="button"
+                className="bg-white text-black border border-gray-200 font-medium rounded-full text-sm p-2.5 inline-flex items-center mb-4 mt-4"
+              >
+                <ArrowBackIcon className="w-4 h-4 mr-2" />
+                <span>Go back</span>
+              </button>
+            </Link>
             <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-[#a50062] h-2.5 rounded-full"

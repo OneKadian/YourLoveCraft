@@ -4,6 +4,8 @@ import SectionContainer from "../../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { updateMaleLeadJob } from "../../../supabase/supabaseRequests.js";
+import Link from "next/link";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +53,15 @@ const ThirdPage = () => {
       <SectionContainer className="page-banner--inner-container wrap wrap-px z-10 md:w-1/2 flex justify-center items-center h-full">
         <div className="my-auto mx-auto w-full flex flex-col justify-start pt-8 lg:justify-center min-h-screen md:min-h-auto">
           <div className="flex h-max my-4 w-full justify-center items-center flex-col rounded-2xl bg-white px-2 sm:px-14">
+            <Link href="/craft/second">
+              <button
+                type="button"
+                className="bg-white text-black border border-gray-200 font-medium rounded-full text-sm p-2.5 inline-flex items-center mb-4 mt-4"
+              >
+                <ArrowBackIcon className="w-4 h-4 mr-2" />
+                <span>Go back</span>
+              </button>
+            </Link>
             {/* Progress Bar */}
             <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
@@ -58,11 +69,9 @@ const ThirdPage = () => {
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-
             <h2 className="text-3xl font-semibold text-gray-700 text-center mt-12">
               What does he do for work?
             </h2>
-
             <div className="mt-4 flex w-full flex-col pb-4">
               <div className="relative mb-4">
                 <div className="flex justify-between items-center">
