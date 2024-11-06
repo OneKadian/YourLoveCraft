@@ -141,6 +141,21 @@ export const updateMaleLeadLooks = async (storyId, maleLeadLooks) => {
   return data;
 };
 
+export const updateMaleLeadName = async (storyId, maleLeadName) => {
+  const { data, error } = await supabase
+    .from("storycraftform")
+    .update({ maleleadname: maleLeadName })
+    .eq("story_id", storyId);
+
+  if (error) {
+    console.error("Error updating male lead looks:", error);
+    return null;
+  }
+
+  console.log("Male lead looks updated successfully:", data);
+  return data;
+};
+
 // Update male lead personality
 export const updateMaleLeadPersonality = async (
   storyId,

@@ -47,8 +47,9 @@ const page = () => {
       // Submit the title using updateStoryTitle function
       await updateStoryTitle(storyId, storyTitle);
 
-      // After successful submission, remove story_id from localStorage
-      // localStorage.removeItem("story_id");
+      // After successful submission, remove story_id and male_lead_name from localStorage
+      localStorage.removeItem("story_id");
+      localStorage.removeItem("male_lead_name");
 
       setTimeout(() => {
         window.location.href = "/crafting";

@@ -6,25 +6,60 @@ import stickyNote from "../../public/stickyNote3.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
-import { addStory } from "../../../supabase/supabaseRequests.js";
+import {
+  addStory,
+  updateMaleLeadName,
+} from "../../../supabase/supabaseRequests.js";
 
 const page = () => {
   const { userId } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [maleLeadName, setMaleLeadName] = useState("");
+  const [maleLeadName, setMaleLeadName] = useState(null);
+  const [localMaleLeadName, setLocalMaleLeadName] = useState(null);
   const [progress, setProgress] = useState(0);
   const [storyId, setStoryId] = useState(null);
 
+  // useEffect(() => {
+  //   if (userId) {
+  //     const generateUniqueStoryId = () => {
+  //       const randomDigits = Math.floor(1000 + Math.random() * 9000);
+  //       return `${userId}-${randomDigits}`;
+  //     };
+
+  //     const generatedStoryId = generateUniqueStoryId();
+  //     setStoryId(generatedStoryId);
+  //     localStorage.setItem("story_id", generatedStoryId);
+  //     console.log(localStorage.getItem("story_id"));
+  //     console.log(localStorage.getItem("fanum"));
+  //   }
+  // }, [userId]);
+
   useEffect(() => {
     if (userId) {
-      const generateUniqueStoryId = () => {
-        const randomDigits = Math.floor(1000 + Math.random() * 9000);
-        return `${userId}-${randomDigits}`;
-      };
+      // Check if a story_id already exists in local storage
+      const existingStoryId = localStorage.getItem("story_id");
 
-      const generatedStoryId = generateUniqueStoryId();
-      setStoryId(generatedStoryId);
-      localStorage.setItem("story_id", generatedStoryId);
+      if (existingStoryId) {
+        // Use the existing story_id from local storage
+        setStoryId(existingStoryId);
+      } else {
+        // Generate a new story_id and save it in local storage
+        const generateUniqueStoryId = () => {
+          const randomDigits = Math.floor(1000 + Math.random() * 9000);
+          return `${userId}-${randomDigits}`;
+        };
+
+        const generatedStoryId = generateUniqueStoryId();
+        setStoryId(generatedStoryId);
+        localStorage.setItem("story_id", generatedStoryId);
+      }
+
+      // Fetch male_lead_name from local storage and set it to state if it exists
+      const savedMaleLeadName = localStorage.getItem("male_lead_name");
+      if (savedMaleLeadName) {
+        setMaleLeadName(savedMaleLeadName);
+        setLocalMaleLeadName(savedMaleLeadName);
+      }
     }
   }, [userId]);
 
@@ -33,23 +68,48 @@ const page = () => {
     setMaleLeadName(input);
     setProgress(Math.min(input.length, 10));
   };
+  //   e.preventDefault();
+  //   if (!maleLeadName) return;
+
+  //   setIsLoading(true); // Start spinner
+
+  //   try {
+  //     await addStory(userId, storyId, maleLeadName);
+
+  //     // Redirect to the new page after successful insertion
+  //     console.log("Story inserted successfully");
+  //     window.location.assign("/craft/second");
+  //   } catch (error) {
+  //     console.error("Error submitting story:", error);
+  //   }
+  //   // We no longer stop the spinner here, so it keeps spinning
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!maleLeadName) return;
 
-    setIsLoading(true); // Start spinner
+    setIsLoading(true);
 
     try {
-      await addStory(userId, storyId, maleLeadName);
+      if (localMaleLeadName === null) {
+        // Insert if no previous record exists
+        await addStory(userId, storyId, maleLeadName);
+        console.log("Story inserted successfully");
+      } else {
+        // Update if record exists
+        await updateMaleLeadName(storyId, maleLeadName);
+        console.log("Male lead name updated successfully");
+      }
 
-      // Redirect to the new page after successful insertion
-      console.log("Story inserted successfully");
+      // Save to local storage
+      localStorage.setItem("male_lead_name", maleLeadName);
       window.location.assign("/craft/second");
     } catch (error) {
       console.error("Error submitting story:", error);
+    } finally {
+      setProgress(10);
     }
-    // We no longer stop the spinner here, so it keeps spinning
   };
 
   return (

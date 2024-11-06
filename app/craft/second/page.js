@@ -6,12 +6,16 @@ import Box from "@mui/material/Box";
 import { updateMaleLeadLooks } from "../../../supabase/supabaseRequests.js";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
+import { RxCross1 } from "react-icons/rx";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SecondPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [maleLeadLooks, setMaleLeadLooks] = useState("");
   const [progress, setProgress] = useState(10);
   const [storyId, setStoryId] = useState(null);
+  const [toastDisplay, setToastDisplay] = useState(false);
+  const [userToastDisplay, setUserToastDisplay] = useState(true);
 
   const handleLooksChange = (e) => {
     const input = e.target.value;
@@ -145,6 +149,52 @@ const SecondPage = () => {
           </div>
         </div>
       </SectionContainer>
+      {userToastDisplay && (
+        <AnimatePresence>
+          {userToastDisplay && (
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 100 }}
+              id="toast-bottom-right"
+              className="fixed flex items-center z-10 w-max p-4 space-x-4 text-gray-500 bg-gray-200 divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow right-5 bottom-5 lg:max-w-xs"
+              role="alert"
+            >
+              <div className="flex">
+                <div className="ms-3 text-sm font-normal flex flex-col justify-center">
+                  <span className="mb-1 text-sm text-center flex justify-center font-semibold text-gray-900">
+                    You must be logged in
+                  </span>
+                  <div className="mb-2 mt-2 text-sm font-normal">
+                    Please login before moving forward
+                  </div>
+                  <div className="grid grid-cols-1 gap-2 h-10">
+                    <div className="flex justify-center">
+                      <Link
+                        href="/sign-in"
+                        className="inline-flex justify-center items-center w-3/4 h-full px-2 py-1.5 text-sm font-semibold text-center text-black bg-secondary-500 rounded-lg hover:bg-secondary-600 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                      >
+                        Login
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className={`ms-auto -mx-1.5 -my-1.5  items-center justify-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8`}
+                  data-dismiss-target="#toast-interactive"
+                  aria-label="Close"
+                  onClick={() => {
+                    setUserToastDisplay(false);
+                  }}
+                >
+                  <RxCross1 className="text-black" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </SectionContainer>
   );
 };
