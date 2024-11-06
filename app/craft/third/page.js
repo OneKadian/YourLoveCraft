@@ -23,11 +23,12 @@ const ThirdPage = () => {
   };
 
   useEffect(() => {
-    // Retrieve the existing story ID from local storage
+    // Retrieve the existing story ID and male_lead_job from local storage
     const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
+    const savedMaleLeadJob = localStorage.getItem("male_lead_job");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedMaleLeadJob) setMaleLeadJob(savedMaleLeadJob); // Set even if null
   }, []);
 
   const handleSubmit = async (e) => {
@@ -39,6 +40,9 @@ const ThirdPage = () => {
     try {
       // Update the story row with matching story_id
       await updateMaleLeadJob(storyId, maleLeadJob);
+
+      // Save maleLeadJob to local storage
+      localStorage.setItem("male_lead_job", maleLeadJob);
 
       // Redirect to the next page after successful update
       console.log("Job updated successfully");

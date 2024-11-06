@@ -55,7 +55,18 @@ const ThirdPage = () => {
     setProgress(input.length > 0 ? 40 : 30);
   };
 
-  // Handle form submission
+  useEffect(() => {
+    // Retrieve the existing story ID and male_lead_personality from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    const savedMaleLeadPersonality = localStorage.getItem(
+      "male_lead_personality"
+    );
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedMaleLeadPersonality)
+      setMaleLeadPersonality(savedMaleLeadPersonality); // Set even if null
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!maleLeadPersonality) return;
@@ -64,7 +75,11 @@ const ThirdPage = () => {
     try {
       // Update story in the database
       await updateMaleLeadPersonality(storyId, maleLeadPersonality);
-      // Redirect to the next page after 1 second delay for spinner effect
+
+      // Save male_lead_personality to local storage
+      localStorage.setItem("male_lead_personality", maleLeadPersonality);
+
+      // Redirect to the next page after a 1-second delay for spinner effect
       setTimeout(() => {
         window.location.assign("/craft/fifth");
       }, 1000);
@@ -73,13 +88,6 @@ const ThirdPage = () => {
       alert("An error occurred. Please try again.");
     }
   };
-
-  useEffect(() => {
-    const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
-  }, []);
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">

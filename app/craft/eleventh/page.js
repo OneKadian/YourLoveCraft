@@ -17,12 +17,6 @@ const ThirdPage = () => {
   const [storyId, setStoryId] = useState(null);
 
   // Load story ID from localStorage
-  useEffect(() => {
-    const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
-  }, []);
 
   // Handle dropdown toggle
   const handleDropdownToggle = () => {
@@ -58,24 +52,41 @@ const ThirdPage = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!storyGenre || !storyId) return;
+useEffect(() => {
+  // Retrieve the existing story ID and story_genre from local storage
+  const savedStoryId = localStorage.getItem("story_id");
+  const savedStoryGenre = localStorage.getItem("story_genre");
 
-    setIsLoading(true);
-    try {
-      await updateStoryGenre(storyId, storyGenre);
-      setTimeout(() => {
-        window.location.href = "/craft/twelfth";
-      }, 1000);
-    } catch (error) {
-      console.error("Error updating story genre:", error);
-      alert("An error occurred. Please try again.");
-    } finally {
-      // setIsLoading(false);
-      setProgress(95);
-    }
-  };
+  if (savedStoryId) setStoryId(savedStoryId);
+  if (savedStoryGenre) setStoryGenre(savedStoryGenre); // Set even if null
+}, []);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!storyGenre || !storyId) return;
+
+  setIsLoading(true);
+
+  try {
+    // Update the story row with the matching story_id
+    await updateStoryGenre(storyId, storyGenre);
+
+    // Save story_genre to local storage
+    localStorage.setItem("story_genre", storyGenre);
+
+    // Redirect to the next page after successful update
+    console.log("Genre updated successfully");
+    setTimeout(() => {
+      window.location.href = "/craft/twelfth";
+    }, 1000);
+  } catch (error) {
+    console.error("Error updating story genre:", error);
+    alert("An error occurred. Please try again.");
+  } finally {
+    setProgress(95); // Ensures the bar fills to 95% upon successful submit
+  }
+};
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">

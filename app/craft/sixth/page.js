@@ -23,21 +23,27 @@ const SecondPage = () => {
   };
 
   useEffect(() => {
-    // Retrieve the existing story ID from local storage
+    // Retrieve the existing story ID and female_lead_appearance (looks) from local storage
     const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
+    const savedFemaleLeadLooks = localStorage.getItem("female_lead_looks");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedFemaleLeadLooks) setFemaleLeadLooks(savedFemaleLeadLooks); // Set even if null
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!femaleLeadLooks || !storyId) return;
 
     setIsLoading(true);
+
     try {
       // Update the story row with matching story_id
       await updateFemaleLeadAppearance(storyId, femaleLeadLooks);
+
+      // Save female_lead_appearance to local storage
+      localStorage.setItem("female_lead_looks", femaleLeadLooks);
 
       // Redirect to the next page after successful update
       console.log("Appearance updated successfully");
@@ -46,7 +52,7 @@ const SecondPage = () => {
       console.error("Error updating female lead appearance:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setProgress(60); // Ensures the bar fills to 10% upon successful submit
+      setProgress(60); // Ensures the bar fills to 60% upon successful submit
     }
   };
 

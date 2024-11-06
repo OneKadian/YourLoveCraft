@@ -36,16 +36,34 @@ const ThirdPage = () => {
   };
 
   // Submit the selected chapter length
+  useEffect(() => {
+    // Retrieve the existing story ID and chapter_length from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    const savedChapterLength = localStorage.getItem("chapter_length");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedChapterLength) setChapterLength(savedChapterLength); // Set even if null
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!chapterLength || !storyId) return;
 
     setIsLoading(true);
+
     try {
-      await updateStoryLength(storyId, chapterLength); // Update chapter length
+      // Update the story row with the matching story_id
+      await updateStoryLength(storyId, chapterLength);
+
+      // Save chapter_length to local storage
+      localStorage.setItem("chapter_length", chapterLength);
+
+      // Redirect to the final page after successful update
+      console.log("Chapter length updated successfully");
       setTimeout(() => {
         setProgress(100); // Set final progress
-        window.location.href = "/craft/final"; // Redirect to final page
+        window.location.href = "/craft/final";
       }, 1000);
     } catch (error) {
       console.error("Error updating chapter length:", error);
@@ -54,13 +72,6 @@ const ThirdPage = () => {
       setProgress(98); // Update progress on selection
     }
   };
-
-  useEffect(() => {
-    const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
-  }, []);
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">

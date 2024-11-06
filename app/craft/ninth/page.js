@@ -13,13 +13,6 @@ const ThirdPage = () => {
   const [progress, setProgress] = useState(80);
   const [storyId, setStoryId] = useState(null); // State for story ID
 
-  useEffect(() => {
-    const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
-  }, []);
-
   const handleJobChange = (e) => {
     const input = e.target.value;
     setStoryPlot(input);
@@ -29,18 +22,34 @@ const ThirdPage = () => {
     setProgress(80 + newProgress); // Starting from 80% to add to the previous progress
   };
 
+  useEffect(() => {
+    // Retrieve the existing story ID and story_plot from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    const savedStoryPlot = localStorage.getItem("story_plot");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedStoryPlot) setStoryPlot(savedStoryPlot); // Set even if null
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!storyPlot) return;
+
+    if (!storyPlot || !storyId) return;
 
     setIsLoading(true);
+
     try {
-      // Call the updateStoryPlot function
+      // Update the story row with the matching story_id
       await updateStoryPlot(storyId, storyPlot);
-      // Redirect to the next page after successful submission
+
+      // Save story_plot to local storage
+      localStorage.setItem("story_plot", storyPlot);
+
+      // Redirect to the next page after successful update
+      console.log("Plot updated successfully");
       window.location.href = "/craft/tenth";
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating story plot:", error);
       alert("An error occurred. Please try again.");
     } finally {
       setProgress(85); // Ensures the bar fills to 85% upon successful submit

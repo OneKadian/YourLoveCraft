@@ -29,14 +29,14 @@ const page = () => {
   };
 
   useEffect(() => {
-    // Retrieve the existing story ID from local storage
+    // Retrieve the existing story ID and female_lead_name from local storage
     const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
+    const savedFemaleLeadName = localStorage.getItem("female_lead_name");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedFemaleLeadName) setfemaleLeadName(savedFemaleLeadName); // Set even if null
   }, []);
 
-  // Submit function (does not submit to supabase, just takes to new page)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -48,6 +48,9 @@ const page = () => {
       // Update the story row with matching story_id
       await updateFemaleLeadName(storyId, femaleLeadName);
 
+      // Save female_lead_name to local storage
+      localStorage.setItem("female_lead_name", femaleLeadName);
+
       // Redirect to the next page after successful update
       console.log("Name updated successfully");
       window.location.href = "/craft/sixth";
@@ -55,7 +58,7 @@ const page = () => {
       console.error("Error updating female lead name:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setProgress(50); // Ensures the bar fills to 10% upon successful submit
+      setProgress(50); // Ensures the bar fills to 50% upon successful submit
     }
   };
 

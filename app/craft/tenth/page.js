@@ -13,13 +13,6 @@ const ThirdPage = () => {
   const [progress, setProgress] = useState(85);
   const [storyId, setStoryId] = useState(null); // State for story ID
 
-  useEffect(() => {
-    const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
-  }, []);
-
   const handleFantasiesChange = (e) => {
     const input = e.target.value;
     setStoryFantasies(input);
@@ -29,16 +22,34 @@ const ThirdPage = () => {
     setProgress(85 + newProgress); // Starting from 85% to add to the previous progress
   };
 
+  useEffect(() => {
+    // Retrieve the existing story ID and story_fantasies from local storage
+    const savedStoryId = localStorage.getItem("story_id");
+    const savedStoryFantasies = localStorage.getItem("story_fantasies");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedStoryFantasies) setStoryFantasies(savedStoryFantasies); // Set even if null
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!storyFantasies) return;
+
+    if (!storyFantasies || !storyId) return;
 
     setIsLoading(true);
+
     try {
-      await updateStoryFantasies(storyId, storyFantasies); // Use updateStoryFantasies for submission
-      window.location.href = "/craft/eleventh"; // Redirect after submission
+      // Update the story row with the matching story_id
+      await updateStoryFantasies(storyId, storyFantasies);
+
+      // Save story_fantasies to local storage
+      localStorage.setItem("story_fantasies", storyFantasies);
+
+      // Redirect to the next page after successful update
+      console.log("Fantasies updated successfully");
+      window.location.href = "/craft/eleventh";
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating story fantasies:", error);
       alert("An error occurred. Please try again.");
     } finally {
       setProgress(90); // Ensures the bar fills to 90% upon successful submit

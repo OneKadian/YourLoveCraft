@@ -27,11 +27,12 @@ const SecondPage = () => {
   };
 
   useEffect(() => {
-    // Retrieve the existing story ID from local storage
+    // Retrieve the existing story ID and male_lead_looks from local storage
     const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
+    const savedMaleLeadLooks = localStorage.getItem("male_lead_looks");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedMaleLeadLooks) setMaleLeadLooks(savedMaleLeadLooks); // Set even if null
   }, []);
 
   const handleSubmit = async (e) => {
@@ -43,6 +44,9 @@ const SecondPage = () => {
     try {
       // Update the story row with matching story_id
       await updateMaleLeadLooks(storyId, maleLeadLooks);
+
+      // Save maleLeadLooks to local storage
+      localStorage.setItem("male_lead_looks", maleLeadLooks);
 
       // Redirect to the next page after successful update
       console.log("Looks updated successfully");

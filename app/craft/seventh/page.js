@@ -22,21 +22,27 @@ const ThirdPage = () => {
   };
 
   useEffect(() => {
-    // Retrieve the existing story ID from local storage
+    // Retrieve the existing story ID and female_lead_job (occupation) from local storage
     const savedStoryId = localStorage.getItem("story_id");
-    if (savedStoryId) {
-      setStoryId(savedStoryId);
-    }
+    const savedFemaleLeadJob = localStorage.getItem("female_lead_job");
+
+    if (savedStoryId) setStoryId(savedStoryId);
+    if (savedFemaleLeadJob) setFemaleLeadJob(savedFemaleLeadJob); // Set even if null
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!femaleLeadJob || !storyId) return;
 
     setIsLoading(true);
+
     try {
       // Update the story row with matching story_id
       await updateFemaleLeadOccupation(storyId, femaleLeadJob);
+
+      // Save female_lead_job to local storage
+      localStorage.setItem("female_lead_job", femaleLeadJob);
 
       // Redirect to the next page after successful update
       console.log("Occupation updated successfully");
@@ -45,7 +51,7 @@ const ThirdPage = () => {
       console.error("Error updating female lead occupation:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setProgress(70); // Ensures the bar fills to 10% upon successful submit
+      setProgress(70); // Ensures the bar fills to 70% upon successful submit
     }
   };
 
