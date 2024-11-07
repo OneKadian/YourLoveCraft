@@ -94,7 +94,7 @@ const page = () => {
             </div>
 
             <h2 className="text-3xl font-semibold text-gray-700 text-center mt-12">
-              Name your story, my lady
+              Give a title to this story, my lady
             </h2>
 
             <div className="mt-4 flex w-full flex-col pb-4">

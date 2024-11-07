@@ -81,7 +81,7 @@ const ThirdPage = () => {
             </div>
 
             <h2 className="text-3xl font-semibold text-gray-700 text-center mt-12">
-              You're almost there! What will be the plot for the first chapter?
+              You're almost there! what will be the plot for the first chapter?
             </h2>
 
             <div className="mt-4 flex w-full flex-col pb-4">

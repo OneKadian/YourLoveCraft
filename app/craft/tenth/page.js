@@ -12,14 +12,30 @@ const ThirdPage = () => {
   const [storyFantasies, setStoryFantasies] = useState(""); // Change state name
   const [progress, setProgress] = useState(85);
   const [storyId, setStoryId] = useState(null); // State for story ID
+  const [fantasiesOption, setFantasiesOption] = useState("Yes"); // New state for Yes/No selection
 
-  const handleFantasiesChange = (e) => {
-    const input = e.target.value;
-    setStoryFantasies(input);
+  const handleFantasiesOptionChange = (event) => {
+    setFantasiesOption(event.target.value);
+    if (event.target.value === "No") {
+      setStoryFantasies("No"); // Set storyFantasies to "No" if user selects "No"
+    } else {
+      setStoryFantasies(""); // Clear storyFantasies if "Yes" is selected
+    }
+  };
 
-    // Update the progress bar based on the input length, maxing out at 20%
-    const newProgress = Math.min(input.length / 10, 5);
-    setProgress(85 + newProgress); // Starting from 85% to add to the previous progress
+  // const handleFantasiesChange = (e) => {
+  //   const input = e.target.value;
+  //   setStoryFantasies(input);
+
+  //   // Update the progress bar based on the input length, maxing out at 20%
+  //   const newProgress = Math.min(input.length / 10, 5);
+  //   setProgress(85 + newProgress); // Starting from 85% to add to the previous progress
+  // };
+
+  const handleFantasiesChange = (event) => {
+    if (fantasiesOption === "Yes") {
+      setStoryFantasies(event.target.value); // Update fantasy text only if option is "Yes"
+    }
   };
 
   useEffect(() => {
@@ -87,7 +103,7 @@ const ThirdPage = () => {
               my lady?
             </h2>
 
-            <div className="mt-4 flex w-full flex-col pb-4">
+            {/* <div className="mt-4 flex w-full flex-col pb-4">
               <div className="relative mb-4">
                 <div className="flex justify-between items-center">
                   <label
@@ -118,6 +134,100 @@ const ThirdPage = () => {
                 disabled={isLoading || !storyFantasies}
                 className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
                   isLoading || !storyFantasies
+                    ? "bg-gray-400 opacity-50 cursor-not-allowed"
+                    : "bg-gray-900 cursor-pointer"
+                }`}
+              >
+                {isLoading ? (
+                  <Box
+                    sx={{
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress color="inherit" size={24} />
+                  </Box>
+                ) : (
+                  <>
+                    <p>Continue</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="ml-4 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      />
+                    </svg>
+                  </>
+                )}
+              </button>
+            </div> */}
+            <div className="mt-4 flex w-full flex-col pb-4">
+              <div className="relative mb-4">
+                <label
+                  htmlFor="fantasies-dropdown"
+                  className="block text-lg font-medium mb-2 text-gray-900"
+                >
+                  Would you like to live and enjoy any fantasies during the
+                  first chapter, my lady?
+                </label>
+
+                {/* Dropdown for Yes/No selection */}
+                <select
+                  id="fantasies-dropdown"
+                  value={fantasiesOption}
+                  onChange={handleFantasiesOptionChange}
+                  className="w-full border border-gray-300 bg-[#F3F5F8] rounded-lg text-md px-5 py-3 text-left text-black font-medium mb-4"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+
+                {/* Fantasy text area, displayed if user selects "Yes" */}
+                {fantasiesOption === "Yes" && (
+                  <div>
+                    <div className="flex justify-between items-center">
+                      <label
+                        htmlFor="job"
+                        className="block text-lg font-medium mb-2 text-gray-900"
+                      >
+                        Try making some connection to the plot
+                      </label>
+                      <span className="block mb-2 text-sm text-gray-500">
+                        {storyFantasies.length}/200
+                      </span>
+                    </div>
+                    <textarea
+                      type="text"
+                      id="job"
+                      name="job"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 h-[240px] text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                      placeholder="She would stumble into his arms, his breath warm on her neck as his hand lingers just a little too long, without a word, he grabs her waist, pulling her close, declaring her his with a fierce, unyielding kiss."
+                      maxLength={200}
+                      value={storyFantasies}
+                      onChange={handleFantasiesChange}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                disabled={
+                  isLoading || (!storyFantasies && fantasiesOption === "Yes")
+                }
+                className={`mt-3 flex items-center justify-center rounded-md py-3 font-medium text-white ${
+                  isLoading || (!storyFantasies && fantasiesOption === "Yes")
                     ? "bg-gray-400 opacity-50 cursor-not-allowed"
                     : "bg-gray-900 cursor-pointer"
                 }`}

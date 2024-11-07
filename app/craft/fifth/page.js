@@ -89,7 +89,7 @@ const page = () => {
             </div>
 
             <h2 className="text-3xl font-semibold text-gray-700 text-center mt-12">
-              Lets introduce the Female lead
+              Let's introduce the female lead
             </h2>
 
             <div className="mt-4 flex w-full flex-col pb-4">

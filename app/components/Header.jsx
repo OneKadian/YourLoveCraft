@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import SectionContainer from "./SectionContainer";
@@ -6,11 +7,15 @@ import ButtonGroup from "./ButtonGroup";
 import Logo from "../public/ihklogo.png";
 import { FaArrowRight } from "react-icons/fa";
 import { UserButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs";
+// import { currentUser } from "@clerk/nextjs";
 import { SignedOut, SignInButton } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
-const Header = async () => {
-  const user = await currentUser();
+const Header = () => {
+  // const Header = async () => {
+  // const user = await currentUser();
+  const { userId } = useAuth();
+
   return (
     <header
       id="header"
@@ -37,7 +42,9 @@ const Header = async () => {
           {/* <Nav userStatus={user} /> */}
           {/* <ButtonGroup className="hidden md:block"> */}
           <ButtonGroup className="block mx-2 md:mx-0">
-            {!user ? (
+            {!userId ? (
+              // {!user ? (
+
               <>
                 <Link
                   href="/sign-in"
@@ -83,13 +90,13 @@ const Header = async () => {
               </>
             ) : (
               <div className="flex">
-                <Link
+                {/* <Link
                   href="/craft/first"
                   className="inline-flex text-base mx-4 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
                 >
                   Craft
-                </Link>
-                {/* <Link
+                </Link> */}
+                <Link
                   href="/craft/first"
                   className="inline-flex text-base mx-4 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
                 >
@@ -112,7 +119,7 @@ const Header = async () => {
                   >
                     Craft
                   </button>
-                </Link> */}
+                </Link>
 
                 <UserButton afterSignOutUrl="/" />
               </div>

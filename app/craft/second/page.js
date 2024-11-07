@@ -166,7 +166,7 @@ const SecondPage = () => {
           </div>
         </div>
       </SectionContainer>
-      {userToastDisplay && (
+      {/* {userToastDisplay && (
         <AnimatePresence>
           {userToastDisplay && (
             <motion.div
@@ -211,7 +211,7 @@ const SecondPage = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      )}
+      )} */}
     </SectionContainer>
   );
 };
