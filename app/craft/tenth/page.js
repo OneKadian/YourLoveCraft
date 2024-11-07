@@ -161,8 +161,14 @@ const ThirdPage = () => {
             </h2>
 
             {isPageLoading ? (
-              <div className="w-full h-max flex justify-center">
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <div className="w-full h-max flex justify-center mt-4">
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "4px",
+                  }}
+                >
                   <CircularProgress />
                 </Box>
               </div>
