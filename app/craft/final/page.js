@@ -49,6 +49,7 @@ const page = () => {
 
       // After successful submission, remove all related items from localStorage
       // localStorage.removeItem("story_id");
+      // Existing localStorage remove items
       localStorage.removeItem("male_lead_name");
       localStorage.removeItem("male_lead_job");
       localStorage.removeItem("male_lead_personality");
@@ -61,6 +62,12 @@ const page = () => {
       localStorage.removeItem("chapter_length");
       localStorage.removeItem("selectedMalePersonality");
       localStorage.removeItem("customMaleInput");
+
+      // Additional localStorage items for female personality and genre
+      localStorage.removeItem("selectedFemalePersonality");
+      localStorage.removeItem("customFemaleInput");
+      localStorage.removeItem("selected_option"); // genre dropdown selection
+      localStorage.removeItem("custom_input"); // custom genre input
 
       setTimeout(() => {
         window.location.href = "/crafting";
