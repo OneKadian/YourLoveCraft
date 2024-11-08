@@ -18,104 +18,72 @@ const ThirdPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [storyId, setStoryId] = useState(null);
 
-  // Handle dropdown toggle
   const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen((prevState) => !prevState);
   };
 
-  // Save states to local storage on "Go Back"
-  const handleGoBack = () => {
-    localStorage.setItem("selected_option", selectedOption);
-    localStorage.setItem("custom_input", customInput);
-    // window.history.back();
+  const handleGenreChange = (option) => {
+    setSelectedOption(option);
+    setCustomInput("");
+    setIsDropdownOpen(false);
+
+    if (option === "Create Your Own") {
+      setStoryGenre(customInput);
+      setProgress(90);
+    } else {
+      setStoryGenre(option);
+      setProgress(95);
+    }
   };
 
   const handleCustomInputChange = (e) => {
     const input = e.target.value;
     setCustomInput(input);
-    setMaleLeadPersonality(input); // Set as personality for continuity
-    localStorage.setItem("customMaleInput", input); // Save to local storage
+
+    if (selectedOption === "Create Your Own") {
+      setStoryGenre(input);
+      setProgress(input.length > 0 ? 95 : 90);
+    }
   };
 
-  // 2. Ensure useEffect loads the custom input if "Create Your Own" was selected previously
+  const handleGoBack = () => {
+    localStorage.setItem("story_genre", storyGenre);
+    window.location.href = "/craft/tenth";
+  };
+
   useEffect(() => {
     const savedStoryId = localStorage.getItem("story_id");
-    const savedSelectedOption = localStorage.getItem("selectedMalePersonality");
-    const savedCustomInput = localStorage.getItem("customMaleInput");
+    const savedStoryGenre = localStorage.getItem("story_genre");
 
     if (savedStoryId) setStoryId(savedStoryId);
+    if (savedStoryGenre) setStoryGenre(savedStoryGenre);
 
-    if (savedSelectedOption) {
-      setSelectedOption(savedSelectedOption);
-
-      if (savedSelectedOption === "Create Your Own") {
-        setIsCustomInput(true);
-        setCustomInput(savedCustomInput || ""); // Load custom input into text area
-        setMaleLeadPersonality(savedCustomInput || ""); // Set maleLeadPersonality to the custom input if it exists
-      } else {
-        setIsCustomInput(false);
-        setMaleLeadPersonality(savedSelectedOption); // Set personality directly if predefined option is selected
-      }
-    }
-
-    setIsPageLoading(false);
+    setTimeout(() => {
+      setIsPageLoading(false);
+    }, 500);
   }, []);
-
-  const handlePersonalityChange = (option) => {
-    setSelectedOption(option);
-    setIsDropdownOpen(false);
-
-    // If "Create Your Own" is selected, switch to custom input mode
-    if (option === "Create Your Own") {
-      setIsCustomInput(true);
-      setMaleLeadPersonality(customInput); // Set to custom input value if already typed
-      setProgress(30);
-    } else {
-      setIsCustomInput(false);
-      setMaleLeadPersonality(option); // Set personality directly if predefined option is selected
-      setProgress(40);
-    }
-
-    // Clear custom input field when a predefined option is selected
-    setCustomInput("");
-    localStorage.setItem("selectedMalePersonality", option); // Save selection to local storage
-  };
-
-  // Handle custom input change
-  // const handleCustomInputChange = (e) => {
-  //   const input = e.target.value;
-  //   setCustomInput(input);
-
-  //   // Switch to custom input mode if typing in textarea
-  //   setIsCustomInput(true);
-  //   setSelectedOption(""); // Clear dropdown selection for custom input
-
-  //   // Update maleLeadPersonality and progress based on input length
-  //   setMaleLeadPersonality(input);
-  //   setProgress(input.length > 0 ? 40 : 30);
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!maleLeadPersonality) return;
+
+    if (!storyGenre || !storyId) return;
 
     setIsLoading(true);
+
     try {
-      // Update story in the database
-      await updateMaleLeadPersonality(storyId, maleLeadPersonality);
-
-      // Save male_lead_personality to local storage
-      localStorage.setItem("male_lead_personality", maleLeadPersonality);
-
-      // Redirect to the next page after a 1-second delay for spinner effect
+      await updateStoryGenre(storyId, storyGenre);
+      localStorage.setItem("story_genre", storyGenre);
       setTimeout(() => {
-        window.location.assign("/craft/fifth");
+        window.location.href = "/craft/twelfth";
       }, 1000);
     } catch (error) {
-      console.error("Error updating story:", error);
+      console.error("Error updating story genre:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setProgress(95);
     }
   };
+
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
