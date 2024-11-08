@@ -115,6 +115,8 @@ const Header = () => {
                       localStorage.removeItem("story_fantasies");
                       localStorage.removeItem("story_genre");
                       localStorage.removeItem("chapter_length");
+                      localStorage.removeItem("selectedMalePersonality");
+                      localStorage.removeItem("customMaleInput");
                     }}
                   >
                     Craft

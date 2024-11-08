@@ -48,7 +48,7 @@ const page = () => {
       await updateStoryTitle(storyId, storyTitle);
 
       // After successful submission, remove all related items from localStorage
-      localStorage.removeItem("story_id");
+      // localStorage.removeItem("story_id");
       localStorage.removeItem("male_lead_name");
       localStorage.removeItem("male_lead_job");
       localStorage.removeItem("male_lead_personality");
@@ -59,6 +59,8 @@ const page = () => {
       localStorage.removeItem("story_fantasies");
       localStorage.removeItem("story_genre");
       localStorage.removeItem("chapter_length");
+      localStorage.removeItem("selectedMalePersonality");
+      localStorage.removeItem("customMaleInput");
 
       setTimeout(() => {
         window.location.href = "/crafting";

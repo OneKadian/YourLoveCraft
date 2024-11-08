@@ -10,7 +10,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const ThirdPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
-
   const [storyFantasies, setStoryFantasies] = useState("");
   const [progress, setProgress] = useState(85);
   const [storyId, setStoryId] = useState(null);
