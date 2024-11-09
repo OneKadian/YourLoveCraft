@@ -18,72 +18,89 @@ const ThirdPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [storyId, setStoryId] = useState(null);
 
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen((prevState) => !prevState);
-  };
+  useEffect(() => {
+    const savedStoryId = localStorage.getItem("story_id");
+    const savedSelectedOption = localStorage.getItem("selectedMalePersonality");
+    const savedCustomInput = localStorage.getItem("customMaleInput");
 
-  const handleGenreChange = (option) => {
-    setSelectedOption(option);
-    setCustomInput("");
-    setIsDropdownOpen(false);
+    if (savedStoryId) setStoryId(savedStoryId);
 
-    if (option === "Create Your Own") {
-      setStoryGenre(customInput);
-      setProgress(90);
-    } else {
-      setStoryGenre(option);
-      setProgress(95);
+    if (savedSelectedOption) {
+      setSelectedOption(savedSelectedOption);
+
+      if (savedSelectedOption === "Create Your Own") {
+        setIsCustomInput(true);
+        setCustomInput(savedCustomInput || "");
+        setMaleLeadPersonality(savedCustomInput || "");
+      } else {
+        setIsCustomInput(false);
+        setMaleLeadPersonality(savedSelectedOption);
+      }
     }
-  };
+
+    setIsPageLoading(false);
+  }, []);
 
   const handleCustomInputChange = (e) => {
     const input = e.target.value;
     setCustomInput(input);
+    localStorage.setItem("customMaleInput", input); // Save to localStorage
 
     if (selectedOption === "Create Your Own") {
-      setStoryGenre(input);
-      setProgress(input.length > 0 ? 95 : 90);
+      setMaleLeadPersonality(input);
+      setProgress(input.length > 0 ? 40 : 30);
     }
   };
 
-  const handleGoBack = () => {
-    localStorage.setItem("story_genre", storyGenre);
-    window.location.href = "/craft/tenth";
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
-  useEffect(() => {
-    const savedStoryId = localStorage.getItem("story_id");
-    const savedStoryGenre = localStorage.getItem("story_genre");
+  const handlePersonalityChange = (option) => {
+    setSelectedOption(option);
+    setIsDropdownOpen(false);
 
-    if (savedStoryId) setStoryId(savedStoryId);
-    if (savedStoryGenre) setStoryGenre(savedStoryGenre);
+    if (option === "Create Your Own") {
+      setIsCustomInput(true);
+      setMaleLeadPersonality(customInput);
+      setProgress(30);
+    } else {
+      setIsCustomInput(false);
+      setMaleLeadPersonality(option);
+      setProgress(40);
+    }
 
-    setTimeout(() => {
-      setIsPageLoading(false);
-    }, 500);
-  }, []);
+    setCustomInput("");
+    localStorage.setItem("selectedMalePersonality", option);
+  };
+
+  const handleGoBack = () => {
+    localStorage.setItem("selected_option", selectedOption);
+    localStorage.setItem("custom_input", customInput);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!storyGenre || !storyId) return;
+    if (!maleLeadPersonality || !storyId) return;
 
     setIsLoading(true);
 
     try {
-      await updateStoryGenre(storyId, storyGenre);
-      localStorage.setItem("story_genre", storyGenre);
+      await updateMaleLeadPersonality(storyId, maleLeadPersonality);
+      localStorage.setItem("male_lead_personality", maleLeadPersonality);
+
       setTimeout(() => {
-        window.location.href = "/craft/twelfth";
+        window.location.href = "/craft/fifth";
       }, 1000);
     } catch (error) {
-      console.error("Error updating story genre:", error);
+      console.error("Error updating male lead personality:", error);
       alert("An error occurred. Please try again.");
     } finally {
-      setProgress(95);
+      setProgress(40);
+      setIsLoading(false);
     }
   };
-
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
