@@ -50,10 +50,10 @@ const page = () => {
       // After successful submission, remove all related items from localStorage
       // localStorage.removeItem("story_id");
       // Existing localStorage remove items
-      localStorage.removeItem("male_lead_name");
+      // localStorage.removeItem("male_lead_name");
       localStorage.removeItem("male_lead_job");
       localStorage.removeItem("male_lead_personality");
-      localStorage.removeItem("female_lead_name");
+      // localStorage.removeItem("female_lead_name");
       localStorage.removeItem("female_lead_looks");
       localStorage.removeItem("female_lead_job");
       localStorage.removeItem("story_plot");

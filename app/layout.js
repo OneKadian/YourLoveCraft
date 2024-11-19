@@ -12,10 +12,7 @@ export const metadata = {
 
 export default function RootLayout({ children, className = "" }) {
   return (
-    <ClerkProvider
-      signInForceRedirectUrl="/gallery"
-      signUpForceRedirectUrl="/onboarding"
-    >
+    <ClerkProvider>
       <html lang="en">
         {/* <main className={`main relative overflow-hidden ${className}`}> */}
 

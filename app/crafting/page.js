@@ -15,6 +15,8 @@ import DoneIcon from "@mui/icons-material/Done";
 const page = () => {
   const { userId } = useAuth();
   const [progress, setProgress] = useState(0);
+  const [maleLeadName, setMaleLeadName] = useState("male lead");
+  const [femaleLeadName, setFemaleLeadName] = useState("female lead");
   const [isLoading, setIsLoading] = useState(false);
   const [storyTitle, setStoryTitle] = useState("");
   const [storyId, setStoryId] = useState(null);
@@ -26,54 +28,86 @@ const page = () => {
 
   // Fetch storyId and male/female lead names from localStorage
   useEffect(() => {
+    // Retrieve from localStorage
+
     const storedStoryId = localStorage.getItem("story_id");
-    const maleLeadName =
-      localStorage.getItem("male_lead_name") || "your male lead";
-    const femaleLeadName =
+    const maleName = localStorage.getItem("male_lead_name") || "male lead";
+    const femaleName =
       localStorage.getItem("female_lead_name") || "female lead";
 
+    // Update state
     if (storedStoryId) setStoryId(storedStoryId);
+    setMaleLeadName(maleName);
+    setFemaleLeadName(femaleName);
+
+    // Initialize sentences after names are loaded
     setSentences([
-      { text: `Damn, ${maleLeadName} looks really hot today`, isLoaded: false },
-      { text: `TBH, ${femaleLeadName} is such a nice name!`, isLoaded: false },
+      { text: `${maleName} looks really hot today!`, isLoaded: false },
+      { text: `TBH, ${femaleName} is such a nice name!`, isLoaded: false },
       { text: "Making sure this chapter turns out nice", isLoaded: false },
     ]);
 
-    // Simulate loading progress and sentences
+    console.log(localStorage.getItem("story_id"));
+    console.log(localStorage.getItem("male_lead_name"));
+    console.log(localStorage.getItem("female_lead_name"));
+
+    console.log(localStorage.getItem(maleName));
+
+    console.log(localStorage.getItem(femaleName));
+
+    console.log(localStorage.getItem(storedStoryId));
+
+    // Simulate loading progress
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
-          //   setTimeout(() => (window.location.href = "/library"), 500);
+          window.location.href = "/library";
           return 100;
         }
-        return prev + 10;
+        return prev + 4;
       });
     }, 1000);
 
-    const sentenceTimeouts = sentences.map((_, i) => {
-      return setTimeout(
-        () => {
-          setSentences((prev) => {
-            const updatedSentences = [...prev];
-            updatedSentences[i].isLoaded = true;
-            return updatedSentences;
-          });
-        },
-        (i + 1) * 3000
-      );
-    });
+    // Simulate loading sentences
+    const sentenceTimeouts = [
+      setTimeout(() => {
+        setSentences((prev) => {
+          const updated = [...prev];
+          updated[0].isLoaded = true;
+          return updated;
+        });
+      }, 8000),
+      setTimeout(() => {
+        setSentences((prev) => {
+          const updated = [...prev];
+          updated[1].isLoaded = true;
+          return updated;
+        });
+      }, 16000),
+      setTimeout(() => {
+        setSentences((prev) => {
+          const updated = [...prev];
+          updated[2].isLoaded = true;
+          return updated;
+        });
+      }, 24000),
+    ];
 
+    // Cleanup on unmount
     return () => {
       clearInterval(progressInterval);
       sentenceTimeouts.forEach(clearTimeout);
+      // localStorage.removeItem("male_lead_name");
+      // localStorage.removeItem("female_lead_name");
     };
   }, []);
+
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
       <SectionContainer className="page-banner--inner-container wrap wrap-px z-10 md:w-1/2 flex justify-center items-center h-full">
         <div className="my-auto mx-auto w-full flex flex-col justify-start pt-8 lg:justify-center min-h-screen md:min-h-auto">
-          <div className="flex h-max my-4 w-full justify-center items-center flex-col rounded-2xl bg-white px-4 sm:px-14 py-8">
+          <div className="flex h-max my-4 w-full mt-16 lg:mt-0 justify-center items-center flex-col rounded-2xl bg-white px-4 sm:px-14 py-8">
             {/* Progress Bar */}
             <div className="relative w-full pt-4">
               <span
@@ -95,22 +129,25 @@ const page = () => {
             </div>
 
             {/* Loading Sentences */}
-            <div className="mt-8 space-y-4 text-center">
+            <div className="mt-8 space-y-6 text-black">
               {sentences.map((sentence, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: sentence.isLoaded ? 1 : 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex items-center justify-center"
-                >
+                <div key={index} className="flex items-center space-x-4">
                   {sentence.isLoaded ? (
-                    <DoneIcon className="text-green-500 mr-2" />
+                    <DoneIcon className="text-green-500" />
                   ) : (
-                    <CircularProgress size={20} className="mr-2" />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CircularProgress color="inherit" size={24} />
+                    </Box>
                   )}
                   <span className="text-lg text-gray-700">{sentence.text}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
