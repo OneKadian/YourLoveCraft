@@ -4,6 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -15,6 +16,7 @@ const Page = () => {
   const [stories, setStories] = useState([]); // State to store fetched stories
   const [isStoriesLoading, setIsStoriesLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const router = useRouter(); // Initialize the router
 
   // Fetch stories on mount
   useEffect(() => {
@@ -83,7 +85,7 @@ const Page = () => {
                   </p>
 
                   {/* Read button */}
-                  <a
+                  {/* <a
                     href="#"
                     className="inline-flex mt-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                   >
@@ -103,7 +105,32 @@ const Page = () => {
                         d="M1 5h12m0 0L9 1m4 4L9 9"
                       />
                     </svg>
-                  </a>
+                  </a> */}
+                  {/* Read Button */}
+                  <button
+                    className="inline-flex mt-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                    onClick={() => {
+                      // Redirect to the dynamic route
+                      router.push(`/read/${story.story_id}/0`);
+                    }}
+                  >
+                    Read
+                    <svg
+                      className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9"
+                      />
+                    </svg>
+                  </button>
                 </div>
               ))}
             </div>
