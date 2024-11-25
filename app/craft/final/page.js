@@ -51,26 +51,28 @@ const page = () => {
       // localStorage.removeItem("story_id");
       // Existing localStorage remove items
       // localStorage.removeItem("male_lead_name");
-      localStorage.removeItem("male_lead_job");
-      localStorage.removeItem("male_lead_personality");
-      // localStorage.removeItem("female_lead_name");
-      localStorage.removeItem("female_lead_looks");
-      localStorage.removeItem("female_lead_job");
-      localStorage.removeItem("story_plot");
-      localStorage.removeItem("story_fantasies");
-      localStorage.removeItem("story_genre");
-      localStorage.removeItem("chapter_length");
-      localStorage.removeItem("selectedMalePersonality");
-      localStorage.removeItem("customMaleInput");
+      // localStorage.removeItem("male_lead_job");
+      // localStorage.removeItem("male_lead_personality");
+      // // localStorage.removeItem("female_lead_name");
+      // localStorage.removeItem("female_lead_looks");
+      // localStorage.removeItem("female_lead_job");
+      // localStorage.removeItem("story_plot");
+      // localStorage.removeItem("story_fantasies");
+      // localStorage.removeItem("story_genre");
+      // localStorage.removeItem("chapter_length");
+      // localStorage.removeItem("selectedMalePersonality");
+      // localStorage.removeItem("customMaleInput");
 
-      // Additional localStorage items for female personality and genre
-      localStorage.removeItem("selectedFemalePersonality");
-      localStorage.removeItem("customFemaleInput");
-      localStorage.removeItem("selected_option"); // genre dropdown selection
-      localStorage.removeItem("custom_input"); // custom genre input
+      // // Additional localStorage items for female personality and genre
+      // localStorage.removeItem("selectedFemalePersonality");
+      // localStorage.removeItem("customFemaleInput");
+      // localStorage.removeItem("selected_option"); // genre dropdown selection
+      // localStorage.removeItem("custom_input"); // custom genre input
 
       setTimeout(() => {
-        window.location.href = "/crafting";
+        window.location.href = "/craft/Test";
+        // window.location.href = "/crafting";
+
       }, 1000);
     } catch (error) {
       console.error("Error:", error);

@@ -10,6 +10,7 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api/(.*)",
+    "/api/write",
     "/Price",
     "/members",
     "/PrivacyPolicy",
