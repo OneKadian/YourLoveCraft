@@ -104,10 +104,10 @@ const page = () => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(progressInterval);
-            // window.location.href = "/library";
+            window.location.href = "/library";
             return 100;
           }
-          return prev + 1; // Adjust speed of progress as needed
+          return prev + 1/2; // Adjust speed of progress as needed
         });
       }, 1000);
 
