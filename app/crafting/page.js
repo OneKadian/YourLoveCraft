@@ -104,10 +104,9 @@ const page = () => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(progressInterval);
-            window.location.href = "/library";
             return 100;
           }
-          return prev + 1/2; // Adjust speed of progress as needed
+          return prev + 1; // Adjust speed of progress as needed
         });
       }, 1000);
 
@@ -145,29 +144,31 @@ const page = () => {
     simulateLoading();
   }, [userId]);
 
-  useEffect(() => {
-    const insertStory = async () => {
-      if (!content || !userId) return;
+useEffect(() => {
+  const insertStory = async () => {
+    if (!content || !userId) return;
 
-      const storedStoryId = localStorage.getItem("story_id");
-      const { error } = await supabase.from("chapters").insert({
-        story_id: storedStoryId,
-        user_id: userId,
-        content,
-      });
+    const storedStoryId = localStorage.getItem("story_id");
+    const { error } = await supabase.from("chapters").insert({
+      story_id: storedStoryId,
+      user_id: userId,
+      content,
+    });
 
-      if (error) {
-        console.error(
-          "Error inserting story into chapters table:",
-          error.message
-        );
-      } else {
-        console.log("Story inserted successfully.");
-      }
-    };
+    if (error) {
+      console.error(
+        "Error inserting story into chapters table:",
+        error.message
+      );
+    } else {
+      console.log("Story inserted successfully.");
+      window.location.href = "/library"; // Navigate only after success
+    }
+  };
 
-    insertStory();
-  }, [content, userId]); // Only triggers when `content` is updated
+  insertStory();
+}, [content, userId]);
+
 
   return (
     <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">

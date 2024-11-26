@@ -70,8 +70,7 @@ const page = () => {
       // localStorage.removeItem("custom_input"); // custom genre input
 
       setTimeout(() => {
-        window.location.href = "/craft/Test";
-        // window.location.href = "/crafting";
+        window.location.href = "/crafting";
 
       }, 1000);
     } catch (error) {
