@@ -118,7 +118,7 @@ const Header = () => {
                       localStorage.removeItem("chapter_length");
                       localStorage.removeItem("selectedMalePersonality");
                       localStorage.removeItem("customMaleInput");
-
+                      localStorage.removeItem("story_id");
                       // Additional localStorage items for female personality and genre
                       localStorage.removeItem("selectedFemalePersonality");
                       localStorage.removeItem("customFemaleInput");
