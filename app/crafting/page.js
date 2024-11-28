@@ -63,17 +63,19 @@ useEffect(() => {
 
     Based on KIM’s description, make the writer KIM write a story about ${maleLeadName} and ${femaleLeadName}. Here is some important info about both the characters. For our ${maleLeadName}, if we were to talk about his personality, well, ${maleLeadPersonality}, and his line of work is that ${maleLeadJob}. And if we were to talk about ${femaleLeadName}, her appearance and physical attributes would be ${femaleLeadLooks}, her personality is ${selectedFemalePersonality || customFemaleInput}, and her line of work is ${femaleLeadJob}. The genre for the story that KIM is about to write will be ${storyGenre}, and the plot for the same would be ${storyPlot}; make sure KIM stays relevant to the plot. Finally, when asked if our readers had any personal fantasies they would wish to live in this story, they said ${storyFantasies}. The reader said that they want this story to be ${chapterLength} words long; adhere to the limit, going above or below by a few words won’t be a problem.
   `;
+const API_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api";
 
-      const response = await fetch("/api/write", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: customPrompt,
-          model: "gpt-4",
-        }),
-      });
+const response = await fetch(`${API_URL}/write`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    prompt: customPrompt,
+    model: "gpt-4",
+  }),
+});
 
       if (response.ok) {
         const data = await response.json();
