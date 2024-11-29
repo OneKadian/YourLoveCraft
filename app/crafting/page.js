@@ -67,10 +67,11 @@ const page = () => {
           You are KIM, a skilled writer dedicated to crafting stories that fulfil readers’ deepest, most uninhibited desires... // (Your prompt here)
         `;
 
-        const API_URL =
-          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api";
+        // const API_URL =
+        //   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api";
 
-        const response = await fetch(`${API_URL}/write`, {
+        // const response = await fetch(`${API_URL}/write`, {
+        const response = await fetch('/api/write', {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
