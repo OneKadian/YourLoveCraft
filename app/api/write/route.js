@@ -5,13 +5,13 @@ import { supabase } from "../../../supabase/supabaseRequests";
 dotenv.config();
 
 // Ensure the OpenAI API key is available
-if (!process.env.OPENAI_API_KEY) {
+if (!process.env.NEXT_PUBLIC_OPENAI_API_KEY) {
   throw new Error("Missing OpenAI API Key in environment variables.");
 }
 
 // Initialize the OpenAI client
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // API key from environment variables
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, // API key from environment variables
 });
 
 export async function POST(req) {
