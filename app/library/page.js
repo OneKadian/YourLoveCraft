@@ -21,6 +21,8 @@ const Page = () => {
   // Fetch stories on mount
   useEffect(() => {
     console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY);
+    console.log(process.env.OPENAI_API_KEY);
+
     const fetchStories = async () => {
       try {
         const { data, error } = await supabase
