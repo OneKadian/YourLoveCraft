@@ -16,6 +16,7 @@ export default authMiddleware({
     "/PrivacyPolicy",
     "/dev",
     "/Terms&Conditions",
+    "/crafting",
   ],
 });
 
