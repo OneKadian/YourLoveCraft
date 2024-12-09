@@ -64,7 +64,7 @@ export async function POST(req) {
       generateAndSaveStory(prompt, storyId, userId); // Process in the background
     }, 0);
 
-    return NextResponse.json({ message: "Order received." }, { status: 202 });
+    return NextResponse.json({ message: "Order received." }, { status: 200 });
   } catch (error) {
     console.error("Error in /api/write:", error.message);
     return NextResponse.json(
