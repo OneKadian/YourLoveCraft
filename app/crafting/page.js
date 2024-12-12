@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import SectionContainer from "../components/SectionContainer.jsx";
-// import stickyNote from "../../public/stickyNote3.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
@@ -37,6 +36,11 @@ const page = () => {
       try {
         if (hasFetched.current) return; // Prevent multiple calls
         hasFetched.current = true;
+        console.log(userId)
+        console.log(localStorage.getItem("story_id"))
+        console.log(storyId)
+                      
+        setStoryId(localStorage.getItem("story_id"))
 
         // Retrieve user inputs from localStorage
         const maleLeadName =
@@ -66,7 +70,7 @@ const page = () => {
         const chapterLength =
           localStorage.getItem("chapter_length") || "an unspecified length";
 
-        // Construct the request body
+
         const requestBody = {
           formData: {
             maleLead: {
@@ -87,7 +91,10 @@ const page = () => {
               length: chapterLength,
             },
           },
+          storyId: localStorage.getItem("story_id"),
+          userId
         };
+
 
         // Call the Supabase edge function
         const { data, error } = await supabase.functions.invoke(
