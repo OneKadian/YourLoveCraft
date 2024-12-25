@@ -6,7 +6,6 @@ import Content from "../components/Content";
 import BadgeGroup from "../components/BadgeGroup";
 import BadgeMessage from "../components/BadgeMessage";
 import MotionBTTContainer from "../components/MotionBTTContainer";
-import SectionContainer from "../components/SectionContainer";
 import PageTitle from "../components/PageTitle";
 import MainGraphic from "../public/MainGaphix.png";
 import Image from "next/image";
@@ -34,8 +33,8 @@ const bannerTextContent = {
 
 const HomeBanner = () => {
   return (
-    <SectionContainer className="w-[full] bg-[#F3F5F8] lg:px-12 px-2 page-banner--container  pt-12 lg:pb-12 flex flex-col-reverse md:flex-row-reverse">
-      <SectionContainer className="page-banner--inner-container wrap wrap-px z-10 md:w-1/2">
+    <div className="w-[full] bg-[#F3F5F8] lg:px-12 px-2 page-banner--container  pt-12 lg:pb-12 flex flex-col-reverse md:flex-row-reverse">
+      <div className="page-banner--inner-container wrap wrap-px z-10 md:w-1/2">
         {/* Appear First */}
         {/* <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}> */}
         <div>
@@ -100,8 +99,8 @@ const HomeBanner = () => {
             Start every day inspired for just $5
           </div> */}
         </div>
-      </SectionContainer>
-      {/* <SectionContainer className="page-banner--image md:w-1/2 flex justify-center items-center">
+      </div>
+      {/* <div className="page-banner--image md:w-1/2 flex justify-center items-center">
         <MotionBTTContainer transition={{ delay: 0.8, duration: 0.5 }}>
           <Image
             src={stickyNote}
@@ -112,8 +111,8 @@ const HomeBanner = () => {
             className="rounded-md "
           />
         </MotionBTTContainer>
-      </SectionContainer> */}
-      <SectionContainer className="page-banner--image md:w-1/2 flex justify-center items-center relative">
+      </div> */}
+      <div className="page-banner--image md:w-1/2 flex justify-center items-center relative">
         <div>
           <Image
             src={stickyNote}
@@ -124,8 +123,8 @@ const HomeBanner = () => {
             className="rounded-md"
           />
         </div>
-      </SectionContainer>
-    </SectionContainer>
+      </div>
+    </div>
   );
 };
 

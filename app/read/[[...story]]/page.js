@@ -84,7 +84,7 @@ const Page = ({ params }) => {
             // Story content goes here
             <div className="text-gray-800 leading-relaxed">
               {/* <pre>{JSON.stringify(storyContent, null, 2)}</pre> */}
-              <p>{storyContent.content}</p>
+              <p className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-gray-800">{storyContent.content}</p>
             </div>
           )}
         </div>
