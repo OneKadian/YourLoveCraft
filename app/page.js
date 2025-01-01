@@ -21,6 +21,7 @@ import PageTitle from "./components/PageTitle.jsx";
 import Content from "./components/Content.jsx";
 import CallToAction from "./components/CTA.jsx";
 import Header from "./components/Header";
+import Home1 from "././komponents/Homepaze.jsx";
 
 // import ContentImage from "./components/ContentImage.jsx";
 export default function Home() {
@@ -47,7 +48,8 @@ export default function Home() {
       <div className="main-wrapper bg-[#F3F5F8] relative z-10 pt-20 ">
         {/* Page Banner  */}
         {/* <Header /> */}
-        <HomeBanner />
+        {/* <HomeBanner /> */}
+        <Home1 />
         {/* Components Container */}
         {/* <SectionContainer className="components--container wrap wrap-px grid gap-8 sm:gap-24">
           <MotionBTTContainer transition={{ delay: 0.2, duration: 0.5 }}>

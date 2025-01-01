@@ -19,65 +19,64 @@ const Page = () => {
   const router = useRouter(); // Initialize the router
 
   // Fetch stories on mount
-  // useEffect(() => {
+  useEffect(() => {
 
 
-  //   const fetchStories = async () => {
-  //     try {
-  //       const { data, error } = await supabase
-  //         .from("storycraftform")
-  //         .select("story_id, storyplot, storytitle")
-  //         .eq("user_id", userId);
+    const fetchStories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("storycraftform")
+          .select("story_id, storyplot, storytitle")
+          .eq("user_id", userId);
 
-  //       if (error) {
-  //         console.error("Error fetching stories:", error.message);
-  //         setError("Failed to fetch stories. Please try again later.");
-  //       } else {
-  //         setStories(data); // Set stories data
-  //       }
-  //     } catch (err) {
-  //       console.error("Unexpected error:", err);
-  //       setError("An unexpected error occurred. Please try again.");
-  //     } finally {
-  //       setIsStoriesLoading(false); // Set loading state to false
-  //     }
-  //   };
-
-  //   if (userId) {
-  //     fetchStories(); // Fetch stories only if userId exists
-  //   }
-  // }, [userId]);
-
-useEffect(() => {
-  const fetchStories = async () => {
-    try {
-      console.log("Fetching stories for user ID:", userId);
-      const { data, error } = await supabase
-        .from("storycraftform")
-        .select("story_id, storyplot, storytitle")
-        .eq("user_id", userId);
-
-      if (error) {
-        console.error("Supabase Error:", error.message);
-        setError("Failed to fetch stories. Please try again later.");
-      } else {
-        console.log("Fetched stories:", data);
-        setStories(data); // Set stories data
+        if (error) {
+          console.error("Error fetching stories:", error.message);
+          setError("Failed to fetch stories. Please try again later.");
+        } else {
+          setStories(data); // Set stories data
+        }
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        setError("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsStoriesLoading(false); // Set loading state to false
       }
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setIsStoriesLoading(false); // Set loading state to false
-    }
-  };
+    };
 
-  if (userId) {
-    fetchStories(); // Fetch stories only if userId exists
-  } else {
-    console.warn("User ID is not defined.");
-  }
-}, [userId]);
+    if (userId) {
+      fetchStories(); // Fetch stories only if userId exists
+    }
+  }, [userId]);
+
+//   const fetchStories = async () => {
+//     try {
+//       console.log("Fetching stories for user ID:", userId);
+//       const { data, error } = await supabase
+//         .from("storycraftform")
+//         .select("story_id, storyplot, storytitle")
+//         .eq("user_id", userId);
+
+//       if (error) {
+//         console.error("Supabase Error:", error.message);
+//         setError("Failed to fetch stories. Please try again later.");
+//       } else {
+//         console.log("Fetched stories:", data);
+//         setStories(data); // Set stories data
+//       }
+//     } catch (err) {
+//       console.error("Unexpected error:", err);
+//       setError("An unexpected error occurred. Please try again.");
+//     } finally {
+//       setIsStoriesLoading(false); // Set loading state to false
+//     }
+//   };
+
+//   if (userId) {
+//     fetchStories(); // Fetch stories only if userId exists
+//   } else {
+//     console.warn("User ID is not defined.");
+//   }
+// }, [userId]);
 
 
   return (

@@ -41,7 +41,9 @@ const Header = () => {
           {/* <Nav userStatus={user} /> */}
           {/* <Nav userStatus={user} /> */}
           {/* <ButtonGroup className="hidden md:block"> */}
-          <ButtonGroup className="block mx-2 md:mx-0">
+          <div className="block mx-2 md:mx-0">
+            {/* <ButtonGroup className="block mx-2 md:mx-0"> */}
+
             {!userId ? (
               // {!user ? (
 
@@ -50,7 +52,7 @@ const Header = () => {
                   href="/sign-in"
                   // className="btn btn--secondary ml-4"
                   // className="inline-flex w-full  cursor-pointer  items-center justify-center gap-3 rounded-lg px-8 py-2 font-semibold bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 ml-4 to-neutral-500 border border-solid border-neutral-400 transition-colors duration-300 md:w-auto"
-                  className="w-full hidden cursor-pointer md:inline-flex mx-1 items-center justify-center gap-3 rounded-lg px-8 py-2 btn btn--secondary md:w-auto"
+                  className="w-full bg-pink-600 hover:bg-pink-700 text-white hidden cursor-pointer md:inline-flex mx-1 items-center justify-center gap-3 rounded-lg px-8 py-2 btn btn--secondary md:w-auto"
                 >
                   Login
                   {/* <FaArrowRightLong className="text-white" /> */}
@@ -58,7 +60,7 @@ const Header = () => {
                 </Link>
                 <Link
                   href="/sign-in"
-                  className="inline-flex text-base md:hidden mx-1 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
+                  className="inline-flex bg-pink-600 hover:bg-pink-700 text-white text-base md:hidden mx-1 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
                 >
                   Login
                 </Link>
@@ -72,7 +74,7 @@ const Header = () => {
                   href="/sign-up"
                   // className="btn btn--secondary ml-4"
                   // className="inline-flex w-full  cursor-pointer  items-center justify-center gap-3 rounded-lg px-8 py-2 font-semibold bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 ml-4 to-neutral-500 border border-solid border-neutral-400 transition-colors duration-300 md:w-auto"
-                  className="w-full hidden cursor-pointer mx-1 md:inline-flex items-center justify-center gap-3 rounded-lg px-8 py-2 btn btn--secondary md:w-auto"
+                  className="w-full bg-pink-600 hover:bg-pink-700 text-white hidden cursor-pointer mx-1 md:inline-flex items-center justify-center gap-3 rounded-lg px-8 py-2 btn btn--secondary md:w-auto"
                 >
                   Lets craft
                   {/* <FaArrowRightLong className="text-white" /> */}
@@ -80,7 +82,7 @@ const Header = () => {
                 <Link
                   href="/sign-up"
                   // className="btn btn--secondary ml-4"
-                  className="inline-flex mx-1 text-base md:hidden w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
+                  className="inline-flex bg-pink-600 hover:bg-pink-700 text-white mx-1 text-base md:hidden w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
                   // className="text-lg font-semibold leading-6 mx-2 inline-flex md:hidden
                   // cursor-pointer items-center justify-center gap-3 rounded-lg bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 ml-4 to-neutral-500 border border-solid border-neutral-400 transition-colors duration-300
                   // "
@@ -98,7 +100,7 @@ const Header = () => {
                 </Link> */}
                 <Link
                   href="/craft/first"
-                  className="inline-flex text-base mx-4 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
+                  className="inline-flex bg-pink-600 hover:bg-pink-700 text-white text-base mx-4 w-max cursor-pointer items-center justify-center gap-3 rounded-lg px-4 py-2 btn btn--secondary md:w-auto"
                 >
                   <button
                     type="button"
@@ -133,7 +135,8 @@ const Header = () => {
                 <UserButton afterSignOutUrl="/" />
               </div>
             )}
-          </ButtonGroup>
+            {/* </ButtonGroup> */}
+          </div>
           {/* <Nav /> */}
         </SectionContainer>
       </SectionContainer>
