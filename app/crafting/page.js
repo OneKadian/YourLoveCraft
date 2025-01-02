@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import SectionContainer from "../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
@@ -178,8 +177,8 @@ const page = () => {
   }, [progress, router]);
 
   return (
-    <SectionContainer className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
-      <SectionContainer className="page-banner--inner-container wrap wrap-px z-10 md:w-1/2 flex justify-center items-center h-full">
+    <div className="w-full bg-[#F3F5F8] justify-center items-center lg:px-12 px-2 page-banner--container pt-12 flex flex-col-reverse md:flex-row min-h-screen">
+      <div className="page-banner--inner-container wrap wrap-px z-10 md:w-1/2 flex justify-center items-center h-full">
         <div className="my-auto mx-auto w-full flex flex-col justify-start pt-8 lg:justify-center min-h-screen md:min-h-auto">
           <div className="flex h-max my-4 w-full mt-16 lg:mt-0 justify-center items-center flex-col rounded-2xl bg-white px-4 sm:px-14 py-8">
             {/* Progress Bar */}
@@ -226,8 +225,8 @@ const page = () => {
             </div>
           </div>
         </div>
-      </SectionContainer>
-    </SectionContainer>
+      </div>
+    </div>
   );
 };
 
