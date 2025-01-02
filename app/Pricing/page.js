@@ -35,12 +35,13 @@ const Pricing = () => {
   const currentPlan = isAnnual ? planDetails.annual : planDetails.monthly;
 
   return (
-    <div className="container mx-auto px-4 py-8 min-h-screen flex justify-center items-center bg-gradient-to-b from-pink-50 to-white">
-      <div className="flex flex-col items-center gap-6">
+     <div className="px-4 py-8 min-h-screen flex justify-center items-center bg-gradient-to-b from-pink-50 to-white">
+
+      <div className="flex flex-col items-center gap-6 w-screen">
         {/* Toggle */}
         <div className="flex items-center gap-3 bg-pink-100 rounded-full px-3 py-1 border border-pink-500">
           <span
-            className={`text-sm font-medium ${
+            className={`text-md font-medium ${
               !isAnnual ? "text-pink-500 font-bold" : "text-gray-800"
             }`}
           >
@@ -56,7 +57,7 @@ const Pricing = () => {
             <div className="relative w-10 h-5 bg-gray-200 rounded-full peer peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-pink-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-pink-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-pink-500"></div>
           </label>
           <span
-            className={`text-sm font-medium ${
+            className={`text-md font-medium ${
               isAnnual ? "text-pink-500 font-bold" : "text-gray-800"
             }`}
           >
@@ -78,8 +79,8 @@ const Pricing = () => {
                   isAnnual ? "animate-carousel-left" : "animate-carousel-right"
                 }`}
                 loading="eager"
-                height={80}
-                width={80}
+                height={150}
+                width={150}
               />
             </div>
           </CardHeader>
@@ -87,14 +88,14 @@ const Pricing = () => {
             <div className="text-center">
               <div className="flex flex-col items-center">
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-3xl font-bold text-pink-500">
+                  <span className="text-5xl font-bold text-pink-500">
                     {currentPlan.price}
                   </span>
                   <span className="text-base text-gray-800">
                     /{currentPlan.period}
                   </span>
                 </div>
-                <p className="text-xs text-gray-600">{currentPlan.billing}</p>
+                <p className="text-sm text-gray-600">{currentPlan.billing}</p>
               </div>
 
               {/* Free months section with fixed height */}
@@ -107,7 +108,7 @@ const Pricing = () => {
               </div>
             </div>
 
-            <div className="space-y-2 text-sm text-gray-800">
+            <div className="space-y-2 text-md text-gray-800">
               <p>{currentPlan.intro}</p>
               <ul className="space-y-1">
                 <li>
