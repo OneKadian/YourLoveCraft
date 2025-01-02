@@ -111,12 +111,7 @@ const ThirdPage = () => {
               <button
                 type="button"
                 className="bg-white text-black border border-gray-200 font-medium rounded-full text-sm p-2.5 inline-flex items-center mb-4 mt-4"
-                // onClick={() =>
-                //   localStorage.setItem(
-                //     "male_lead_personality",
-                //     maleLeadPersonality
-                //   )
-                // }
+
                 onClick={handleGoBack}
               >
                 <ArrowBackIcon className="w-4 h-4 mr-2" />

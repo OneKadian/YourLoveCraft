@@ -1,14 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import SectionContainer from "../components/SectionContainer.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
-import { updateStoryTitle } from "../../supabase/supabaseRequests.js";
-import Link from "next/link";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { motion } from "framer-motion";
 import DoneIcon from "@mui/icons-material/Done";
 import { supabase } from "../../supabase/supabaseRequests.js";
 import { useRouter } from "next/navigation";
@@ -16,10 +11,6 @@ import { useRouter } from "next/navigation";
 const page = () => {
   const { userId } = useAuth();
   const [progress, setProgress] = useState(0);
-  const [maleLeadName, setMaleLeadName] = useState("male lead");
-  const [femaleLeadName, setFemaleLeadName] = useState("female lead");
-  const [isLoading, setIsLoading] = useState(false);
-  const [storyTitle, setStoryTitle] = useState("");
   const [storyId, setStoryId] = useState(null);
   const router = useRouter(); // Initialize the router
 
@@ -36,11 +27,11 @@ const page = () => {
       try {
         if (hasFetched.current) return; // Prevent multiple calls
         hasFetched.current = true;
-        console.log(userId)
-        console.log(localStorage.getItem("story_id"))
-        console.log(storyId)
-                      
-        setStoryId(localStorage.getItem("story_id"))
+        console.log(userId);
+        console.log(localStorage.getItem("story_id"));
+        console.log(storyId);
+
+        setStoryId(localStorage.getItem("story_id"));
 
         // Retrieve user inputs from localStorage
         const maleLeadName =
@@ -70,7 +61,6 @@ const page = () => {
         const chapterLength =
           localStorage.getItem("chapter_length") || "an unspecified length";
 
-
         const requestBody = {
           formData: {
             maleLead: {
@@ -92,9 +82,8 @@ const page = () => {
             },
           },
           storyId: localStorage.getItem("story_id"),
-          userId
+          userId,
         };
-
 
         // Call the Supabase edge function
         const { data, error } = await supabase.functions.invoke(

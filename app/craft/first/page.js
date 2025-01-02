@@ -1,8 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import SectionContainer from "../../components/SectionContainer.jsx";
-import stickyNote from "../../public/stickyNote3.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useAuth } from "@clerk/nextjs";
@@ -18,21 +15,6 @@ const page = () => {
   const [localMaleLeadName, setLocalMaleLeadName] = useState(null);
   const [progress, setProgress] = useState(0);
   const [storyId, setStoryId] = useState(null);
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     const generateUniqueStoryId = () => {
-  //       const randomDigits = Math.floor(1000 + Math.random() * 9000);
-  //       return `${userId}-${randomDigits}`;
-  //     };
-
-  //     const generatedStoryId = generateUniqueStoryId();
-  //     setStoryId(generatedStoryId);
-  //     localStorage.setItem("story_id", generatedStoryId);
-  //     console.log(localStorage.getItem("story_id"));
-  //     console.log(localStorage.getItem("fanum"));
-  //   }
-  // }, [userId]);
 
   useEffect(() => {
     if (userId) {
@@ -68,7 +50,7 @@ const page = () => {
     setMaleLeadName(input);
     setProgress(Math.min(input.length, 10));
   };
-  //   e.preventDefault();
+
   //   if (!maleLeadName) return;
 
   //   setIsLoading(true); // Start spinner
