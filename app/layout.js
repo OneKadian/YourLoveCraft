@@ -4,19 +4,15 @@ import "./global.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "./components/Header";
 const inter = Inter({ subsets: ["latin"] });
-
 export const metadata = {
   title: "Your Love Craft",
-  description: "If you can believe, you can achieve",
+  description: "Nobody can write stories for you, better than you",
 };
-
 export default function RootLayout({ children, className = "" }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        {/* <main className={`main relative overflow-hidden ${className}`}> */}
 
-        {/* <main className={`main relative overflow-hidden`}> */}
         <body
           className={inter.className}
           // style={{ backgroundColor: "#F3F5F8" }}
@@ -24,7 +20,6 @@ export default function RootLayout({ children, className = "" }) {
           <Header />
           {children}
         </body>
-        {/* </main> */}
       </html>
     </ClerkProvider>
   );
