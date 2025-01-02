@@ -8,7 +8,7 @@ export const metadata = {
   title: "Your Love Craft",
   description: "Nobody can write stories for you, better than you",
 };
-export default function RootLayout({ children, className = "" }) {
+export default function RootLayout({ children}) {
   return (
     <ClerkProvider>
       <html lang="en">
