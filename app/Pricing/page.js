@@ -35,9 +35,8 @@ const Pricing = () => {
   const currentPlan = isAnnual ? planDetails.annual : planDetails.monthly;
 
   return (
-     <div className="px-4 py-8 min-h-screen flex justify-center items-center bg-gradient-to-b from-pink-50 to-white">
-
-      <div className="flex flex-col items-center gap-6 w-screen">
+    <div className="px-4 py-8 min-h-screen flex justify-center items-center bg-gradient-to-b from-pink-50 to-white">
+      <div className="flex flex-col items-center gap-6 mt-8">
         {/* Toggle */}
         <div className="flex items-center gap-3 bg-pink-100 rounded-full px-3 py-1 border border-pink-500">
           <span
