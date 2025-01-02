@@ -4,14 +4,24 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{ts,tsx}",
+    "./public/fonts/**/*.{ttf,woff,woff2}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       fontFamily: {
         body: ["Inter", "Sans Serif"],
         title: ["Inter", "Sans Serif"],
         reenie: ["'Reenie Beanie'", "cursive"],
         caveat: ["'Caveat'", "cursive"],
+        cursive: ["Dancing Script", "cursive"],
       },
       fontSize: {
         body: [
@@ -63,10 +73,6 @@ module.exports = {
           },
         ],
       },
-      content: [
-        // ...
-        "./public/fonts/**/*.{ttf,woff,woff2}",
-      ],
       colors: {
         black: {
           DEFAULT: "#000000",
@@ -95,6 +101,8 @@ module.exports = {
           900: "#303030",
         },
         primary: {
+          DEFAULT: "#FF8FAB",
+          foreground: "#FFFFFF",
           50: "#FCFCFC",
           100: "#FCFCFC",
           200: "#FCFCFC",
@@ -108,6 +116,8 @@ module.exports = {
           950: "#595959",
         },
         secondary: {
+          DEFAULT: "#E5DEFF",
+          foreground: "#4A154B",
           50: "#FFF9F0",
           100: "#FFF5E5",
           200: "#FFEBCC",
@@ -120,10 +130,33 @@ module.exports = {
           900: "#8A5300",
           950: "#663D00",
         },
+        accent: {
+          DEFAULT: "#FFE5E5",
+          foreground: "#4A154B",
+        },
         badge: "#F1F5F9",
         badgeText: "#475569",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+      },
+      keyframes: {
+        "carousel-left": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        "carousel-right": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        "carousel-left": "carousel-left 0.4s ease-out",
+        "carousel-right": "carousel-right 0.4s ease-out",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
